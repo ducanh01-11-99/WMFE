@@ -35,6 +35,7 @@ export const STORAGE = {
 export const REDUX_KEY = {
   app: 'app',
   login: 'login',
+  homePage: 'homePage',
 };
 
 export const TIME_ALL = '1';
@@ -79,6 +80,8 @@ export const LIST_CREATE_TIME = [
 export const PATH_ROOT = '/';
 export const PATH_LOGIN = '/login';
 export const PATH_PARTNER = '/partner';
+
+export const PATH_HOMEPAGE = '/homepage';
 
 export const ListIcon = [
   'pictext',
@@ -306,3 +309,5 @@ export const ListIcon = [
   'addRowAbove',
   'addRowBelow',
 ];
+
+export const primaryColor = '#485444';

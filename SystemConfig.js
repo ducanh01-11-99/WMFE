@@ -1,4 +1,4 @@
-var SystemConfig = {
-  URL: '', // Url api backend
-  // API Backend
-};
+// var SystemConfig = {
+//   URL: '', // Url api backend
+//   // API Backend
+// };

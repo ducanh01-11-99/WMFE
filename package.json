@@ -92,6 +92,7 @@
     "moment": "^2.29.4",
     "prop-types": "15.7.2",
     "react": "16.8.6",
+    "react-bootstrap": "^2.7.2",
     "react-dom": "16.8.6",
     "react-google-recaptcha": "^2.1.0",
     "react-helmet": "6.0.0-beta",

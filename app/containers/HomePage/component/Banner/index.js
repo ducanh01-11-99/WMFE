@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import { ButtonContact, LineContentBannerLeft } from './styled';
 
 const Banner = () => (
-  <div sty>
+  <div style={{ height: '300px' }}>
     <Row className="main-banner-left-content" style={{ width: '100%' }}>
       <LineContentBannerLeft
         className="wow fadeInLeft bounceInLeft"

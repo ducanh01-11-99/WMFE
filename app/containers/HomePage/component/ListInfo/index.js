@@ -5,7 +5,7 @@ import { Detail, Item, Title } from './styled';
 const ListInfor = () => {
   const A = 10;
   return (
-    <div style={{ marginTop: '40px' }}>
+    <div style={{ marginTop: '40px', height: '200px' }}>
       <Row gutter={8}>
         <Col span={6}>
           <Item>

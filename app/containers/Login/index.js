@@ -1,15 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { LoginStyled, LoginWrapper } from './stylesLogin';
-import Banner from '../HomePage/component/Banner';
 
 const Login = () => {
-  const { t } = useTranslation();
+  console.log(1234);
   return (
     <LoginStyled>
-      <LoginWrapper>
-        <div>Loginhere</div>
-      </LoginWrapper>
+      <LoginWrapper>Login</LoginWrapper>
     </LoginStyled>
   );
 };

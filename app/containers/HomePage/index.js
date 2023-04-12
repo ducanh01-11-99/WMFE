@@ -117,7 +117,7 @@ const HomePage = () => {
             key: 'AIzaSyB1fbo7x3EFQrDkKHw70pLIRpKwZXELbuU',
           }}
           defaultCenter={{ lat: 21.15, lng: 105.25 }}
-          defaultZoom={8}
+          defaultZoom={20}
         >
           <AnyReactComponent
             lat={21.0278}

@@ -18,11 +18,15 @@ import {
   PATH_ROOT,
   PATH_PARTNER,
   PATH_HOMEPAGE,
+  PATH_REGISTER,
+  PATH_FORGET_PASSWORD,
 } from '../../utils/constants';
 import Login from '../Login/LoadableLogin';
 import ErrorPage from '../../res/components/ErrorPage';
 import Partner from '../Partner/LoadablePartner';
 import Homepage from '../HomePage/Loadable';
+import Register from '../Register/Loadable';
+import ForgetPassword from '../ForgetPassword/Loadable';
 
 export default function App() {
   return (
@@ -33,6 +37,11 @@ export default function App() {
           <LayoutNotLogin exact path={PATH_LOGIN} component={Login} />
           <LayoutNotLogin exact path={PATH_HOMEPAGE} component={Homepage} />
           <LayoutLogged path={PATH_PARTNER} component={Partner} />
+          <LayoutNotLogin path={PATH_REGISTER} component={Register} />
+          <LayoutNotLogin
+            path={PATH_FORGET_PASSWORD}
+            component={ForgetPassword}
+          />
           <Route path="" render={() => <ErrorPage code="404" />} />
         </Switch>
       </>

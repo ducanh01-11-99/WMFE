@@ -83,6 +83,10 @@ export const PATH_PARTNER = '/partner';
 
 export const PATH_HOMEPAGE = '/homepage';
 
+export const PATH_REGISTER = '/register';
+
+export const PATH_FORGET_PASSWORD = '/forgot-password';
+
 export const ListIcon = [
   'pictext',
   'timespen2',

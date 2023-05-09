@@ -6,7 +6,6 @@ import { COOKIES, PATH_LOGIN, PATH_PARTNER } from '../../utils/constants';
 
 const LayoutLogged = ({ path, component: Component }) => {
   const token = Cookies.get(COOKIES.accessTokenTest);
-  console.log(token);
   return (
     <Route
       render={() =>

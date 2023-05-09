@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row } from 'antd';
-import { MailOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Row } from 'antd';
 import { LoginStyled, LoginWrapper } from '../Login/stylesLogin';
+import FloatingLabel from '../../res/components/FloatingLabel/Input';
 
 const ForgetPassword = () => {
   const [form] = Form.useForm();
@@ -18,15 +18,26 @@ const ForgetPassword = () => {
   };
   return (
     <LoginStyled>
-      <LoginWrapper>
+      <LoginWrapper style={{ backgroundColor: 'white' }}>
         <Row gutter={24} style={{ height: '100%' }}>
           <Col span={12} style={{ background: 'green' }}>
             Left container
           </Col>
           <Col span={12}>
-            <div style={{ height: '30%', marginTop: '35%' }}>
+            <div style={{ height: '30%', marginTop: '30%' }}>
+              <div
+                style={{
+                  fontSize: 30,
+                  fontWeight: 700,
+                  color: '#219653',
+                  margin: 'auto',
+                  textAlign: 'center',
+                  marginBottom: 20,
+                }}
+              >
+                Quên mật khẩu
+              </div>
               <Form form={form}>
-                <div>Địa chỉ Email</div>
                 <Form.Item
                   placeholder="Your email"
                   name="email"
@@ -37,10 +48,20 @@ const ForgetPassword = () => {
                     },
                   ]}
                 >
-                  <Input prefix={<MailOutlined />} />
+                  <FloatingLabel isRequired label="Tên đăng nhập" />
                 </Form.Item>
-                <Button style={{ width: '100%' }} onClick={submit}>
-                  Dang nhap
+                <Button
+                  style={{
+                    height: '40px',
+                    width: '100%',
+                    borderRadius: '8px',
+                    backgroundColor: '#219653',
+                    color: 'white',
+                    border: 'none',
+                  }}
+                  onClick={submit}
+                >
+                  Ghi lại
                 </Button>
               </Form>
             </div>

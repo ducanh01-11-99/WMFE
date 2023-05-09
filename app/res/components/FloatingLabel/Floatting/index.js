@@ -14,7 +14,11 @@ const Floating = ({ children, label, value }) => {
       }}
     >
       {children}
-      {focus || (value && value.length !== 0) ? <FloatingLabel>{label}</FloatingLabel> : <Label>{label}</Label>}
+      {focus || (value && value.length !== 0) ? (
+        <FloatingLabel>{label}</FloatingLabel>
+      ) : (
+        <Label>{label}</Label>
+      )}
     </FloatLabel>
   );
 };

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Row, Image } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { LoginStyled, LoginWrapper } from './stylesLogin';
 import ChangePasswordModal from '../component/ChangePasswordModal';
+import image from '../../images/checkedIcon.svg';
+import FloatingLabel from '../../res/components/FloatingLabel/Input';
 
 const Login = () => {
   const history = useHistory();
   const [form] = Form.useForm();
   const [openModal, setOpenModal] = useState(false);
-  console.log('openModal', openModal);
-
+  // Xu ly call api login
   const submit = () => {
     form
       .validateFields()
@@ -31,28 +31,28 @@ const Login = () => {
     history.push('./forgot-password');
   };
 
-  console.log(1234);
   return (
     <LoginStyled>
-      <LoginWrapper>
+      <LoginWrapper style={{ backgroundColor: 'white' }}>
         <Row gutter={24} style={{ height: '100%' }}>
           <Col span={12} style={{ background: 'green' }}>
-            Left container
+            <Image src={image} />
           </Col>
           <Col span={12}>
-            <Button
-              onClick={() => {
-                setOpenModal(true);
+            <div
+              style={{
+                fontSize: 30,
+                fontWeight: 700,
+                margin: 'auto',
+                textAlign: 'center',
+                marginBottom: 20,
+                color: '#219653',
+                marginTop: '15%',
               }}
             >
-              Test Quen mat khau
-            </Button>
-            <br />
-            Ban chua co tai khoan?
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-            <span onClick={clickRegister}> Dang ki </span>
+              Đăng nhập
+            </div>
             <Form form={form}>
-              <div>Ten dang nhap hoac dai chi email</div>
               <Form.Item
                 name="email"
                 rules={[
@@ -62,10 +62,8 @@ const Login = () => {
                   },
                 ]}
               >
-                <Input prefix={<MailOutlined />} />
+                <FloatingLabel label="Tên đăng nhập" isRequired />
               </Form.Item>
-
-              <div>Mat khau</div>
               <Form.Item
                 name="password"
                 rules={[
@@ -75,21 +73,34 @@ const Login = () => {
                   },
                 ]}
               >
-                <Input.Password visibilityToggle prefix={<LockOutlined />} />
+                <FloatingLabel label="Mật khẩu" isPass isRequired />
               </Form.Item>
 
-              <Form.Item>
-                <Checkbox>Ghi nho</Checkbox>
-              </Form.Item>
-
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-              <span onClick={clickForgetPassword}>Quan mat khau?</span>
-
-              <Button style={{ width: '100%' }} onClick={submit}>
-                Dang nhap
+              <Button
+                style={{
+                  height: '40px',
+                  width: '100%',
+                  borderRadius: '8px',
+                  backgroundColor: '#219653',
+                  color: 'white',
+                }}
+                onClick={submit}
+              >
+                Đăng nhập
               </Button>
 
-              <div>--- hoac ---</div>
+              <div
+                style={{ textAlign: 'center', marginTop: 20, marginBottom: 20 }}
+              >
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                <span onClick={clickForgetPassword}>Quên mật khẩu?</span>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <span> Bạn chưa có tài khoản? </span>
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                <span onClick={clickRegister}> Đăng kí </span>
+              </div>
             </Form>
           </Col>
         </Row>

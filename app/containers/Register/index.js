@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd';
-import { LockOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
+import { Button, Col, Form, Row } from 'antd';
 import { LoginStyled, LoginWrapper } from '../Login/stylesLogin';
+import FloatingLabel from '../../res/components/FloatingLabel/Input';
 
 const Register = () => {
   const [form] = Form.useForm();
 
+  // call API tai day
   const submit = () => {
     form
       .validateFields()
@@ -19,29 +20,54 @@ const Register = () => {
   console.log(4321);
   return (
     <LoginStyled>
-      <LoginWrapper>
+      <LoginWrapper style={{ backgroundColor: 'white' }}>
         <Row gutter={24} style={{ height: '100%' }}>
           <Col span={12} style={{ background: 'green' }}>
             Left container
           </Col>
           <Col span={12}>
-            Dang ky
+            <div
+              style={{
+                fontSize: 30,
+                fontWeight: 700,
+                margin: 'auto',
+                textAlign: 'center',
+                marginBottom: 20,
+                color: '#219653',
+                marginTop: '15%',
+              }}
+            >
+              Đăng kí tài khoản
+            </div>
             <Form form={form}>
               <Row gutter={24}>
                 <Col span={12}>
-                  <Form.Item>
-                    <div>Ho</div>
-                    <Input placeholder="Ho" />
+                  <Form.Item
+                    name="fName"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your fName!',
+                      },
+                    ]}
+                  >
+                    <FloatingLabel label="Họ" isRequired />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item>
-                    <div>Ten</div>
-                    <Input placeholder="Ten" />
+                  <Form.Item
+                    name="lName"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your lastName!',
+                      },
+                    ]}
+                  >
+                    <FloatingLabel label="Tên" isRequired />
                   </Form.Item>
                 </Col>
               </Row>
-              <div>Ten dang nhap hoac dai chi email</div>
               <Form.Item
                 name="email"
                 rules={[
@@ -51,10 +77,8 @@ const Register = () => {
                   },
                 ]}
               >
-                <Input placeholder="Your email" prefix={<MailOutlined />} />
+                <FloatingLabel label="Email" isRequired />
               </Form.Item>
-
-              <div>So dien thoai</div>
               <Form.Item
                 name="phoneNumber"
                 rules={[
@@ -64,14 +88,8 @@ const Register = () => {
                   },
                 ]}
               >
-                <Input
-                  placeholder="Your phone"
-                  visibilityToggle
-                  prefix={<PhoneOutlined />}
-                />
+                <FloatingLabel label="Số điện thoại" isRequired />
               </Form.Item>
-
-              <div>Mat khau</div>
               <Form.Item
                 name="password"
                 rules={[
@@ -81,24 +99,21 @@ const Register = () => {
                   },
                 ]}
               >
-                <Input.Password
-                  placeholder="Your password"
-                  visibilityToggle
-                  prefix={<LockOutlined />}
-                />
+                <FloatingLabel label="Mật khẩu" isRequired isPass />
               </Form.Item>
 
-              <Form.Item>
-                <Checkbox>Ghi nho</Checkbox>
-              </Form.Item>
-
-              <div>Quan mat khau?</div>
-
-              <Button style={{ width: '100%' }} onClick={submit}>
-                Dang ky
+              <Button
+                style={{
+                  height: '40px',
+                  width: '100%',
+                  borderRadius: '8px',
+                  backgroundColor: '#219653',
+                  color: 'white',
+                }}
+                onClick={submit}
+              >
+                Đăng kí
               </Button>
-
-              <div>--- hoac ---</div>
             </Form>
           </Col>
         </Row>

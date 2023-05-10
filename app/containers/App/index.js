@@ -24,6 +24,11 @@ import ErrorPage from '../../res/components/ErrorPage';
 import Homepage from '../HomePage/Loadable';
 import Register from '../Register/Loadable';
 import ForgetPassword from '../ForgetPassword/Loadable';
+import LayoutLogged from '../../layout/LayoutLogged';
+import Garage from '../Garage/LoadableGarage';
+import GarbageTruck from '../GarbageTruck/LoadableGarbageTruck';
+import RecycleBin from '../RecycleBin/LoadableRecycleBin';
+import Notification from '../Notification/LoadableNotifications';
 
 export default function App() {
   return (
@@ -37,6 +42,34 @@ export default function App() {
           <LayoutNotLogin
             path={PATH_FORGET_PASSWORD}
             component={ForgetPassword}
+          />
+          <LayoutLogged
+            exact
+            path="/garage"
+            component={Garage}
+            showSearch
+            placeholderSearch="Tim kiem"
+          />
+          <LayoutLogged
+            exact
+            path="/garbageTruck"
+            component={GarbageTruck}
+            showSearch
+            placeholderSearch="Tim kiem"
+          />
+          <LayoutLogged
+            exact
+            path="/RecycleBin"
+            component={RecycleBin}
+            showSearch
+            placeholderSearch="Tim kiem"
+          />
+          <LayoutLogged
+            exact
+            path="/notification"
+            component={Notification}
+            showSearch
+            placeholderSearch="Tim kiem"
           />
           <Route path="" render={() => <ErrorPage code="404" />} />
         </Switch>

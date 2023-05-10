@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip } from 'antd';
 import {
   HeaderEtn,
   ContainerHeader,
@@ -8,7 +7,6 @@ import {
   IconMenu,
   Logo,
   RightHeader,
-  IconUser,
   PopoverCustom,
   LayoutSearch,
 } from './style';
@@ -17,7 +15,6 @@ import SearchField from '../InputField/SearchField';
 const Header = ({
   iconMenu,
   logo,
-  userData,
   onClickMenu,
   onClickLogo,
   content,
@@ -32,7 +29,6 @@ const Header = ({
   onPressEnter,
   hideFilter,
   pathSuggestSearch,
-  contentHoverAvatar,
 }) => (
   <HeaderEtn>
     <ContainerHeader>
@@ -63,13 +59,18 @@ const Header = ({
           trigger="click"
           overlayStyle={{ paddingRight: '15px' }}
         >
-          {!visible ? (
-            <Tooltip placement="bottomLeft" title={contentHoverAvatar} color="white" overlayStyle={{ maxWidth: '407px' }}>
-              <IconUser alt="" src={userData.image} />
-            </Tooltip>
-          ) : (
-            <IconUser alt="" src={userData.image} />
-          )}
+          {/* {!visible ? ( */}
+          {/*  <Tooltip */}
+          {/*    placement="bottomLeft" */}
+          {/*    title={contentHoverAvatar} */}
+          {/*    color="white" */}
+          {/*    overlayStyle={{ maxWidth: '407px' }} */}
+          {/*  > */}
+          {/*    <IconUser alt="" /> */}
+          {/*  </Tooltip> */}
+          {/* ) : ( */}
+          {/*  <IconUser alt="" /> */}
+          {/* )} */}
         </PopoverCustom>
       </RightHeader>
     </ContainerHeader>
@@ -78,7 +79,6 @@ const Header = ({
 Header.propTypes = {
   iconMenu: PropTypes.element,
   logo: PropTypes.element,
-  userData: PropTypes.object,
   onClickMenu: PropTypes.func,
   onClickLogo: PropTypes.func,
   content: PropTypes.node,
@@ -93,7 +93,6 @@ Header.propTypes = {
   onPressEnter: PropTypes.func,
   hideFilter: PropTypes.bool,
   pathSuggestSearch: PropTypes.string,
-  contentHoverAvatar: PropTypes.node,
 };
 
 export default Header;

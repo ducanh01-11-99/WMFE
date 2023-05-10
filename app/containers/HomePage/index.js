@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Input } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
-// import {GoogleMapReact,  } from 'google-map-react';
 
 import {
   GoogleMap,
@@ -72,47 +71,13 @@ const target = {
   lng: 105.8347,
 };
 
-// eslint-disable-next-line react/prop-types
-// const AnyReactComponent = ({ text, percent }) => {
-//   // eslint-disable-next-line no-unused-vars
-//   let label = IconDustbinBlue;
-//   if (percent < 50) {
-//     label = IconDustbinGreen;
-//   } else if (percent >= 50 && percent < 80) {
-//     label = IconDustbinOrange;
-//   } else {
-//     label = IconDustbinRed;
-//   }
-//   return (
-//     <DivIconSearch>
-//       {/* <Button>{text} 60%</Button>; */}
-//       <Tooltip placement="topLeft" title={InfoToolTip(text, percent)}>
-//         <img
-//           src={label}
-//           alt=""
-//           width={30}
-//           height={30}
-//           style={{ color: 'blue' }}
-//         />
-//       </Tooltip>
-//     </DivIconSearch>
-//   );
-// };
-
-// const InfoToolTip = (text, number) => (
-//   <>
-//     <div>
-//       {text} - {number}%
-//     </div>
-//   </>
-// );
 const HomePage = () => {
   const history = useHistory();
   const [directionResponse, setDirectionsResponse] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [distance, setDistance] = useState('');
+  // eslint-disable-next-line no-unused-vars
   const [duration, setDuration] = useState('');
-
-  console.log(distance, duration);
   const clickLogin = () => {
     history.push('./login');
   };
@@ -135,12 +100,6 @@ const HomePage = () => {
     setDuration(results.routes[0].legs[0].distance.text);
   };
 
-  // const clearRoute = () => {
-  //   setDirectionsResponse(null);
-  //   setDistance('');
-  //   setDuration('');
-  // };
-
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyB1fbo7x3EFQrDkKHw70pLIRpKwZXELbuU',
@@ -161,8 +120,6 @@ const HomePage = () => {
     console.log(map);
     setMap(null);
   }, []);
-
-  // const [isModalOpen, setModalOpen] = useState(false);
 
   const items = [
     {
@@ -213,56 +170,11 @@ const HomePage = () => {
         <Options />
       </Content>
       <div style={{ height: '100vh', width: '100%' }}>
-        <Button onClick={calculateRoute}>Click</Button>
-        {/* <GoogleMapReact */}
-        {/*  bootstrapURLKeys={{ */}
-        {/*    key: 'AIzaSyB1fbo7x3EFQrDkKHw70pLIRpKwZXELbuU', */}
-        {/*  }} */}
-        {/*  defaultCenter={{ lat: 21.15, lng: 105.25 }} */}
-        {/*  defaultZoom={20} */}
-        {/* > */}
-        {/*  <AnyReactComponent */}
-        {/*    lat={21.0278} */}
-        {/*    lng={105.8342} */}
-        {/*    text="TR 1" */}
-        {/*    percent={40} */}
-        {/*  /> */}
-
-        {/*  <AnyReactComponent */}
-        {/*    lat={21.027} */}
-        {/*    lng={105.8347} */}
-        {/*    text="TR 2" */}
-        {/*    percent={70} */}
-        {/*  /> */}
-
-        {/*  <AnyReactComponent */}
-        {/*    lat={21.027} */}
-        {/*    lng={105.835} */}
-        {/*    text="TR 3" */}
-        {/*    percent={80} */}
-        {/*  /> */}
-        {/*  <AnyReactComponent */}
-        {/*    lat={21.1} */}
-        {/*    lng={105.5342} */}
-        {/*    text="TR 1" */}
-        {/*    percent={120} */}
-        {/*  /> */}
-
-        {/*  <AnyReactComponent */}
-        {/*    lat={21.227} */}
-        {/*    lng={105.6347} */}
-        {/*    text="TR 2" */}
-        {/*    percent={50} */}
-        {/*  /> */}
-
-        {/*  <AnyReactComponent */}
-        {/*    lat={21.327} */}
-        {/*    lng={105.735} */}
-        {/*    text="TR 3" */}
-        {/*    percent={100} */}
-        {/*  /> */}
-        {/* </GoogleMapReact> */}
-
+        <div>
+          <span>vị trí của bạn</span>
+          <Input />
+          <Button onClick={calculateRoute}>Click</Button>
+        </div>
         {isLoaded && (
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '100%' }}
@@ -297,6 +209,7 @@ const HomePage = () => {
       </div>
       <Footer
         style={{
+          marginTop: '-10px',
           textAlign: 'center',
         }}
       >

@@ -54,7 +54,7 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     setGarbageTruckSelected(data.GarbageTruckID);
     setShowInformation(true);
   };
-  const listPartner = useSelector(selectors.selectGarageTruck());
+  const listPartner = useSelector(selectors.selectListGarageTruck());
   const TABLE_ACCOUNT = [
     {
       title: 'STT',
@@ -65,14 +65,14 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: 'Mã Bãi đỗ xe',
-      dataIndex: 'GarbageTruckID',
+      title: 'Mã Xe đổ rác',
+      dataIndex: 'garbageTruckID',
       key: 'GarbageTruckID',
       width: '400px',
     },
     {
       title: 'Tọa độ',
-      dataIndex: 'code',
+      dataIndex: 'location',
       key: 'code',
       render: (text, record) => (
         <BoldItaly
@@ -82,8 +82,13 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       ),
     },
     {
+      title: 'Mã gara',
+      dataIndex: 'garageID',
+      key: 'code',
+    },
+    {
       title: 'Trạng thái',
-      dataIndex: 'GarbageTruckID',
+      dataIndex: 'status',
       width: '400px',
       render: (text, record) => (
         <TableFunction
@@ -113,7 +118,7 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         <ContentHeader>
           <HeaderLeft>
             <ContentTitle>
-              Danh sách Bãi để xe: {listPartner ? listPartner.length : 0}
+              Danh sách Xe rác: {listPartner ? listPartner.length : 0}
             </ContentTitle>
           </HeaderLeft>
           <HeaderRight>

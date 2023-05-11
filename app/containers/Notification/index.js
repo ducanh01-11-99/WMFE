@@ -8,7 +8,6 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import saga from './saga';
 import * as actions from './actions';
 import * as selectors from './selector';
-import BoldItaly from '../../res/components/TableOtherView/BoldItaly';
 import TableFunction from '../../res/components/TableOtherView/TableFunction';
 import {
   AdvanceSearchWrapper,
@@ -50,11 +49,10 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     dispatch(actions.getListNotification({}));
   }, []);
   const onClickRow = data => {
-    console.log('data', data);
     setNotificationSelected(data.NotificationID);
     setShowInformation(true);
   };
-  const listPartner = useSelector(selectors.selectNotification());
+  const listPartner = useSelector(selectors.selectListNotification());
   const TABLE_ACCOUNT = [
     {
       title: 'STT',
@@ -65,25 +63,24 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: 'Mã Bãi đỗ xe',
-      dataIndex: 'NotificationID',
-      key: 'NotificationID',
+      title: 'Mã Thông báo',
+      dataIndex: 'notificationID',
+      key: 'notificationID',
       width: '400px',
     },
     {
-      title: 'Tọa độ',
-      dataIndex: 'code',
-      key: 'code',
-      render: (text, record) => (
-        <BoldItaly
-          name1={record.location.toString().split(',')[0]}
-          name2={record.location.toString().split(',')[1]}
-        />
-      ),
+      title: 'Mã Thùng rác',
+      dataIndex: 'recycleBinID',
+      key: 'recycleBinID',
+    },
+    {
+      title: 'Tên thông báo',
+      dataIndex: 'notificationName',
+      key: 'notificationName',
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'NotificationID',
+      dataIndex: 'notificationType',
       width: '400px',
       render: (text, record) => (
         <TableFunction
@@ -113,7 +110,7 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         <ContentHeader>
           <HeaderLeft>
             <ContentTitle>
-              Danh sách Bãi để xe: {listPartner ? listPartner.length : 0}
+              Danh sách Thông báo: {listPartner ? listPartner.length : 0}
             </ContentTitle>
           </HeaderLeft>
           <HeaderRight>

@@ -11,7 +11,7 @@ export const selectLoading = () =>
     state => state.isLoading,
   );
 
-export const selectListGarage = () =>
+export const selectListGarageTruck = () =>
   createSelector(
     selectGarageTruck,
     state => state.listGarbageTruck,

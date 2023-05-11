@@ -15,7 +15,6 @@ import { REDUX_KEY } from '../../../../utils/constants';
 
 const key = REDUX_KEY.notification;
 const AddAndEditNotification = ({ data, visible, onClose }) => {
-  console.log(data);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useInjectReducer({ key, reducer });

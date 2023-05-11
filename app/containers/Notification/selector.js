@@ -11,7 +11,7 @@ export const selectLoading = () =>
     state => state.isLoading,
   );
 
-export const selectListGarage = () =>
+export const selectListNotification = () =>
   createSelector(
     selectNotification,
     state => state.listNotification,

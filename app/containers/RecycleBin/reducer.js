@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { GET_DETAIL_RECYCLEBIN_SUCCESS, RESET_REDUX } from './constant';
+import { GET_LIST_RECYCLEBIN_SUCCESS, RESET_REDUX } from './constant';
 
 export const initialState = {
   isLoading: false,
@@ -13,7 +13,7 @@ const recycleBinReducer = (state = initialState, action) =>
         draft.isLoading = false;
         draft.listrecycleBin = [];
         break;
-      case GET_DETAIL_RECYCLEBIN_SUCCESS:
+      case GET_LIST_RECYCLEBIN_SUCCESS:
         draft.isLoading = false;
         draft.listrecycleBin = action.data;
     }

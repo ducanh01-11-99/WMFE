@@ -16,19 +16,18 @@ import {
   PATH_LOGIN,
   PATH_ROOT,
   PATH_HOMEPAGE,
-  PATH_REGISTER,
   PATH_FORGET_PASSWORD,
 } from '../../utils/constants';
 import Login from '../Login/LoadableLogin';
 import ErrorPage from '../../res/components/ErrorPage';
 import Homepage from '../HomePage/Loadable';
-import Register from '../Register/Loadable';
 import ForgetPassword from '../ForgetPassword/Loadable';
 import LayoutLogged from '../../layout/LayoutLogged';
 import Garage from '../Garage/LoadableGarage';
 import GarbageTruck from '../GarbageTruck/LoadableGarbageTruck';
 import RecycleBin from '../RecycleBin/LoadableRecycleBin';
 import Notification from '../Notification/LoadableNotifications';
+import User from '../User/LoadableUser';
 
 export default function App() {
   return (
@@ -38,7 +37,6 @@ export default function App() {
           <LayoutNotLogin exact path={PATH_ROOT} component={Homepage} />
           <LayoutNotLogin exact path={PATH_LOGIN} component={Login} />
           <LayoutNotLogin exact path={PATH_HOMEPAGE} component={Homepage} />
-          <LayoutNotLogin path={PATH_REGISTER} component={Register} />
           <LayoutNotLogin
             path={PATH_FORGET_PASSWORD}
             component={ForgetPassword}
@@ -68,6 +66,13 @@ export default function App() {
             exact
             path="/notification"
             component={Notification}
+            showSearch
+            placeholderSearch="Tim kiem"
+          />
+          <LayoutLogged
+            exact
+            path="/user"
+            component={User}
             showSearch
             placeholderSearch="Tim kiem"
           />

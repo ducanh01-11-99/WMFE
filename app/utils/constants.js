@@ -37,7 +37,7 @@ export const REDUX_KEY = {
   login: 'login',
   homePage: 'homePage',
   garage: 'garage',
-  garbageTruck: 'garbage',
+  garbageTruck: 'garbageTruck',
   notification: 'notification',
   recycleBin: 'recyclebin',
   User: 'user',
@@ -52,7 +52,6 @@ export const TIME_OPTION_FORM_LAST_MONTH = '6';
 export const TIME_OPTION_PERIOD = '7';
 export const PATH_ROOT = '/';
 export const PATH_LOGIN = '/login';
-export const PATH_PARTNER = '/partner';
 
 export const PATH_HOMEPAGE = '/homepage';
 

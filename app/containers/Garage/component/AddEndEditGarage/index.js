@@ -15,7 +15,6 @@ import { REDUX_KEY } from '../../../../utils/constants';
 
 const key = REDUX_KEY.garage;
 const AddAndEditGarage = ({ data, visible, onClose }) => {
-  console.log(data);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useInjectReducer({ key, reducer });
@@ -44,6 +43,7 @@ const AddAndEditGarage = ({ data, visible, onClose }) => {
       };
       dispatch(actions.addGarage(body));
     });
+    onClose();
   };
 
   return (

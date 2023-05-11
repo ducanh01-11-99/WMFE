@@ -47,14 +47,14 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.getListRecycleBin({}));
+    dispatch(actions.getListrecycleBin({}));
   }, []);
   const onClickRow = data => {
     console.log('data', data);
-    setRecycleBinSelected(data.RecycleBinID);
+    setRecycleBinSelected(data.recycleBinID);
     setShowInformation(true);
   };
-  const listPartner = useSelector(selectors.selectRecycleBin());
+  const listPartner = useSelector(selectors.selectListRecycleBin());
   const TABLE_ACCOUNT = [
     {
       title: 'STT',
@@ -65,15 +65,34 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: 'Mã Bãi đỗ xe',
-      dataIndex: 'RecycleBinID',
-      key: 'RecycleBinID',
+      title: 'Mã thùng rác',
+      dataIndex: 'recycleBinID',
+      key: 'recycleBinID',
       width: '400px',
     },
     {
       title: 'Tọa độ',
-      dataIndex: 'code',
-      key: 'code',
+      dataIndex: 'location',
+      key: 'location',
+      render: (text, record) => (
+        <BoldItaly
+          name1={record.location.toString().split(',')[0]}
+          name2={record.location.toString().split(',')[1]}
+        />
+      ),
+    },
+
+    {
+      title: 'Số ngày chưa xử lý',
+      dataIndex: 'daySinceLastCollection',
+      key: 'recycleBinID',
+      width: '400px',
+    },
+
+    {
+      title: 'Tọa độ',
+      dataIndex: 'location',
+      key: 'location',
       render: (text, record) => (
         <BoldItaly
           name1={record.location.toString().split(',')[0]}
@@ -82,8 +101,13 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       ),
     },
     {
+      title: 'Usages',
+      dataIndex: 'usages',
+      key: 'usages',
+    },
+    {
       title: 'Trạng thái',
-      dataIndex: 'RecycleBinID',
+      dataIndex: 'recyclebinStatus',
       width: '400px',
       render: (text, record) => (
         <TableFunction
@@ -113,7 +137,7 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         <ContentHeader>
           <HeaderLeft>
             <ContentTitle>
-              Danh sách Bãi để xe: {listPartner ? listPartner.length : 0}
+              Danh sách Thùng rác: {listPartner ? listPartner.length : 0}
             </ContentTitle>
           </HeaderLeft>
           <HeaderRight>

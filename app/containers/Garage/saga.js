@@ -8,7 +8,6 @@ export function* getListGarage() {
   try {
     const res = yield call(axiosGet, path);
     if (res.data) {
-      console.log(res.data);
       yield put(actions.getListGarageSuccess(res.data));
     } else {
       yield put(actions.requestFalse());
@@ -23,7 +22,6 @@ export function* addGarage(action) {
   try {
     const res = yield call(axiosPost, path, action.body);
     if (res.data) {
-      console.log(res.data);
       yield put(actions.getListGarageSuccess(res.data));
     } else {
       yield put(actions.requestFalse());

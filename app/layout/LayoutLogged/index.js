@@ -47,10 +47,16 @@ const LayoutLogged = ({
       icon: iconMenuProfile,
       label: 'Quản lý Thùng rác',
     },
+    {
+      key: '5',
+      path: '/User',
+      icon: iconMenuProfile,
+      label: 'Quản lý Tài khoản',
+    },
   ];
 
   const history = useHistory();
-  const PERMISSION_MENU = ['1', '2', '3', '4'];
+  const PERMISSION_MENU = ['1', '2', '3', '4', '5'];
   const token = Cookies.get(COOKIES.accessTokenTest);
   const [menuExpand, setMenuExpand] = useState(true);
   const { pathname } = history.location;

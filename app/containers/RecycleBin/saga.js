@@ -4,11 +4,10 @@ import * as actions from './actions';
 import { axiosGet, axiosPost } from '../../utils/request';
 
 export function* getListRecycleBin() {
-  const path = '/api/v1/Garage';
+  const path = '/api/v1/RecycleBin';
   try {
     const res = yield call(axiosGet, path);
     if (res.data) {
-      console.log(res.data);
       yield put(actions.getListrecycleBinSuccess(res.data));
     } else {
       yield put(actions.requestFalse());
@@ -19,11 +18,10 @@ export function* getListRecycleBin() {
 }
 
 export function* addRecycleBin(action) {
-  const path = '/api/v1/Garage';
+  const path = '/api/v1/RecycleBin';
   try {
     const res = yield call(axiosPost, path, action.body);
     if (res.data) {
-      console.log(res.data);
       yield put(actions.addrecycleBinSuccess(res.data));
     } else {
       yield put(actions.requestFalse());

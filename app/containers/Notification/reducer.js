@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { GET_DETAIL_NOTIFICATION_SUCCESS, RESET_REDUX } from './constants';
+import { GET_LIST_NOTIFICATION_SUCCESS, RESET_REDUX } from './constants';
 
 export const initialState = {
   isLoading: false,
@@ -13,7 +13,7 @@ const notificationReducer = (state = initialState, action) =>
         draft.isLoading = false;
         draft.listNotification = [];
         break;
-      case GET_DETAIL_NOTIFICATION_SUCCESS:
+      case GET_LIST_NOTIFICATION_SUCCESS:
         draft.isLoading = false;
         draft.listNotification = action.data;
     }

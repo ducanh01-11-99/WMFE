@@ -11,7 +11,7 @@ export const selectLoading = () =>
     state => state.isLoading,
   );
 
-export const selectListGarage = () =>
+export const selectListRecycleBin = () =>
   createSelector(
     selectRecycleBin,
     state => state.listrecycleBin,

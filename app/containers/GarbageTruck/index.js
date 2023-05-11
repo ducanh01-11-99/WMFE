@@ -36,7 +36,7 @@ const key = REDUX_KEY.garbageTruck;
 
 const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   const [showAddAndEdit, setShowAddAndEdit] = useState(false);
-  const [idGarbageTruckSelected, setGarbageTruckSelected] = useState('');
+  const [garbageTruckSelected, setGarbageTruckSelected] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [showInformation, setShowInformation] = useState(false);
@@ -51,7 +51,7 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   }, []);
   const onClickRow = data => {
     console.log('data', data);
-    setGarbageTruckSelected(data.GarbageTruckID);
+    setGarbageTruckSelected(data);
     setShowInformation(true);
   };
   const listPartner = useSelector(selectors.selectListGarageTruck());
@@ -98,12 +98,12 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
           titleEdit="Sửa Bãi đỗ xe"
           onClickEdit={() => {
             setShowAddAndEdit(true);
-            setGarbageTruckSelected(record.GarbageTruckID);
+            setGarbageTruckSelected(record);
           }}
           titleDelete="Xóa Bãi đõ xe"
           onClickDelete={() => {
             setShowDelete(true);
-            setGarbageTruckSelected(record.GarbageTruckID);
+            setGarbageTruckSelected(record);
           }}
         />
       ),
@@ -127,7 +127,7 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
               type="primary"
               onClick={() => {
                 setShowAddAndEdit(true);
-                setGarbageTruckSelected('');
+                setGarbageTruckSelected({});
               }}
             >
               Thêm mới
@@ -173,15 +173,21 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         onClose={() => {
           setShowAddAndEdit(false);
         }}
-        data={idGarbageTruckSelected}
+        data={garbageTruckSelected}
+        refreshT={() => {
+          dispatch(actions.getListGarbageTruck());
+        }}
       />
 
       <DeleteGarbageTruck
         onClose={() => {
           setShowDelete(false);
         }}
-        data={idGarbageTruckSelected}
+        data={garbageTruckSelected}
         visible={showDelete}
+        refreshT={() => {
+          dispatch(actions.getListGarbageTruck());
+        }}
       />
     </Content>
   );

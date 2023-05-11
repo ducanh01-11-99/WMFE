@@ -38,7 +38,7 @@ const key = REDUX_KEY.garage;
 
 const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   const [showAddAndEdit, setShowAddAndEdit] = useState(false);
-  const [idGarageSelected, setGarageSelected] = useState('');
+  const [garageSelected, setgarageSelected] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [showInformation, setShowInformation] = useState(false);
@@ -52,8 +52,7 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     dispatch(actions.getListGarage({}));
   }, []);
   const onClickRow = data => {
-    console.log('data', data);
-    setGarageSelected(data.garageID);
+    setgarageSelected(data);
     setShowInformation(true);
   };
   const listPartner = useSelector(selectors.selectListGarage());
@@ -94,13 +93,13 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
           record={record}
           titleEdit="Sửa Bãi đỗ xe"
           onClickEdit={() => {
-            setShowAddAndEdit(true);
-            setGarageSelected(record.garageID);
+            setShowAddAndEdit({});
+            setgarageSelected(record);
           }}
           titleDelete="Xóa Bãi đõ xe"
           onClickDelete={() => {
             setShowDelete(true);
-            setGarageSelected(record.garageID);
+            setgarageSelected(record);
           }}
         />
       ),
@@ -124,7 +123,7 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
               type="primary"
               onClick={() => {
                 setShowAddAndEdit(true);
-                setGarageSelected('');
+                setgarageSelected({});
               }}
             >
               Thêm mới
@@ -170,15 +169,21 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         onClose={() => {
           setShowAddAndEdit(false);
         }}
-        data={idGarageSelected}
+        data={garageSelected}
+        refreshT={() => {
+          dispatch(actions.getListGarage());
+        }}
       />
 
       <DeleteGarage
         onClose={() => {
           setShowDelete(false);
         }}
-        data={idGarageSelected}
+        data={garageSelected}
         visible={showDelete}
+        refreshT={() => {
+          dispatch(actions.getListGarage());
+        }}
       />
     </Content>
   );

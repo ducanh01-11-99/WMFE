@@ -27,13 +27,13 @@ import Table from '../../res/components/Table';
 import advanceIcon from '../../images/iconAdvance.svg';
 import refreshAdvanceIcon from '../../images/iconRefeshAdvance.svg';
 import closeAdvanceIcon from '../../images/iconCloseAdvance.svg';
-import AddAndEditRecycleBin from '../RecycleBin/component/AddAndEditRecycleBin';
-import DeleteRecycleBin from '../RecycleBin/component/DeleteRecycleBin';
+import AddAndEditUser from './component/AddAndEditUser';
+import DeleteUser from './component/DeleteUser';
 import { REDUX_KEY } from '../../utils/constants';
 const key = REDUX_KEY.User;
 const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   const [showAddAndEdit, setShowAddAndEdit] = useState(false);
-  const [idRecycleBinSelected, setRecycleBinSelected] = useState('');
+  const [userSelected, setUserSelected] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [showInformation, setShowInformation] = useState(false);
@@ -47,8 +47,7 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     dispatch(actions.getListUser({}));
   }, []);
   const onClickRow = data => {
-    console.log('data', data);
-    setRecycleBinSelected(data.RecycleBinID);
+    setUserSelected(data);
     setShowInformation(true);
   };
   const listPartner = useSelector(selectors.selectListUser());
@@ -69,8 +68,8 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     },
     {
       title: 'Tên người dùng',
-      dataIndex: 'code',
-      key: 'code',
+      dataIndex: 'userName',
+      key: 'userName',
     },
     {
       title: 'Mật khẩu',
@@ -101,15 +100,15 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
           type="normal"
           text={text}
           record={record}
-          titleEdit="Sửa Bãi đỗ xe"
+          titleEdit="Sửa người dùng"
           onClickEdit={() => {
             setShowAddAndEdit(true);
-            setRecycleBinSelected(record.RecycleBinID);
+            setUserSelected(record);
           }}
-          titleDelete="Xóa Bãi đõ xe"
+          titleDelete="Xóa Người dùng"
           onClickDelete={() => {
             setShowDelete(true);
-            setRecycleBinSelected(record.RecycleBinID);
+            setUserSelected(record);
           }}
         />
       ),
@@ -133,7 +132,7 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
               type="primary"
               onClick={() => {
                 setShowAddAndEdit(true);
-                setRecycleBinSelected('');
+                setUserSelected({});
               }}
             >
               Thêm mới
@@ -174,20 +173,26 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
           <ContentAdvanceView />
         </AdvanceSearchWrapper>
       )}
-      <AddAndEditRecycleBin
+      <AddAndEditUser
         visible={showAddAndEdit}
         onClose={() => {
           setShowAddAndEdit(false);
         }}
-        data={idRecycleBinSelected}
+        data={userSelected}
+        refreshT={() => {
+          dispatch(actions.getListUser());
+        }}
       />
 
-      <DeleteRecycleBin
+      <DeleteUser
         onClose={() => {
           setShowDelete(false);
         }}
-        data={idRecycleBinSelected}
+        data={userSelected}
         visible={showDelete}
+        refreshT={() => {
+          dispatch(actions.getListUser());
+        }}
       />
     </Content>
   );

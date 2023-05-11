@@ -18,7 +18,7 @@ export function* getListGarbageTruck() {
 }
 
 export function* addGarageTruck(action) {
-  const path = '/api/v1/Garage';
+  const path = '/api/v1/Garbagetruck';
   try {
     const res = yield call(axiosPost, path, action.body);
     if (res.data) {

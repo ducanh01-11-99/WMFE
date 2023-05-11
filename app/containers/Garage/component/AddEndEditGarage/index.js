@@ -1,20 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Row, Col, Radio } from 'antd';
+import { Form, Row, Col } from 'antd';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import { FormCustom } from './style';
 import { useInjectReducer } from '../../../../utils/injectReducer';
 import { useInjectSaga } from '../../../../utils/injectSaga';
 import * as actions from '../../actions';
 import CustomModal from '../../../../res/components/CustomModal';
 import FloatingLabel from '../../../../res/components/FloatingLabel/Input';
-import { RadioGroup } from '../../../../res/components/CopyPageSignModal/styled';
+// import { RadioGroup } from '../../../../res/components/CopyPageSignModal/styled';
 import reducer from '../../reducer';
 import saga from '../../saga';
 import { REDUX_KEY } from '../../../../utils/constants';
+import Notice from '../../../../res/components/Notice';
 
 const key = REDUX_KEY.garage;
-const AddAndEditGarage = ({ data, visible, onClose }) => {
+const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useInjectReducer({ key, reducer });
@@ -25,30 +27,50 @@ const AddAndEditGarage = ({ data, visible, onClose }) => {
   };
 
   useEffect(() => {
-    if (data.length > 0) {
+    if (JSON.stringify(data) !== '{}') {
       const body = {
         garageID: data,
-        lon: 11,
-        lat: 12,
+        lon: data.location.toString().split(',')[0],
+        lat: data.location.toString().split(',')[1],
       };
       form.setFieldsValue(body);
     }
   }, [data]);
 
   const onSubmit = () => {
-    form.validateFields().then(value => {
+    form.validateFields().then(async value => {
       const body = {
-        garageID: value.name,
         location: `${value.lon},${value.lat}`,
       };
-      dispatch(actions.addGarage(body));
+      if (JSON.stringify(data) === '{}') {
+        dispatch(actions.addGarage(body));
+      } else {
+        const res = await axios.put(
+          `https://localhost:7145/api/v1/Garage/${data.garageID}`,
+          { garageID: data.garageID, location: `${value.lon},${value.lat}` },
+        );
+        if (res.data === 1) {
+          refreshT();
+          onClose();
+        } else {
+          Notice({
+            msg: 'Đã có lỗi xả ra. Bạn vui lòng thử lại',
+            isSuccess: false,
+          });
+        }
+      }
     });
+    refreshT();
     onClose();
   };
 
   return (
     <CustomModal
-      title={data.length === 0 ? 'Thêm Bãi đỗ xe' : 'Sửa thông tin Bãi đỗ xe'}
+      title={
+        JSON.stringify(data) === '{}'
+          ? 'Thêm Bãi đỗ xe'
+          : 'Sửa thông tin Bãi đỗ xe'
+      }
       width={850}
       visible={visible}
       onClickCancel={() => {
@@ -61,7 +83,7 @@ const AddAndEditGarage = ({ data, visible, onClose }) => {
     >
       <FormCustom form={form}>
         <Form.Item name="garageID">
-          <FloatingLabel label="Tên Bãi đỗ xe" isRequired />
+          <FloatingLabel disabled label="Tên Bãi đỗ xe" isRequired />
         </Form.Item>
         {/* <div>Vị trí</div> */}
         <Row gutter={18}>
@@ -76,10 +98,10 @@ const AddAndEditGarage = ({ data, visible, onClose }) => {
             </Form.Item>
           </Col>
         </Row>
-        <RadioGroup>
-          <Radio value={1}>Hoạt động</Radio>
-          <Radio value={2}>Không hoạt động</Radio>
-        </RadioGroup>
+        {/* <RadioGroup> */}
+        {/*  <Radio value={1}>Hoạt động</Radio> */}
+        {/*  <Radio value={2}>Không hoạt động</Radio> */}
+        {/* </RadioGroup> */}
       </FormCustom>
     </CustomModal>
   );
@@ -89,6 +111,7 @@ AddAndEditGarage.propTypes = {
   data: PropTypes.object,
   onClose: PropTypes.func,
   visible: PropTypes.bool,
+  refreshT: PropTypes.func,
 };
 
 export default AddAndEditGarage;

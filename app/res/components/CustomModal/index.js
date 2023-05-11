@@ -92,7 +92,7 @@ export default function CustomModal({
                     ))}
                   {!disableSaveButton ? (
                     <ButtonSave loading={isLoading} onClick={onSave}>
-                      Lưu lại
+                      {nameSave || t('common.saveModal')}
                     </ButtonSave>
                   ) : (
                     <Tooltip title={disableSaveMessage}>

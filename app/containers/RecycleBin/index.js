@@ -36,7 +36,7 @@ const key = REDUX_KEY.recycleBin;
 
 const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   const [showAddAndEdit, setShowAddAndEdit] = useState(false);
-  const [idRecycleBinSelected, setRecycleBinSelected] = useState('');
+  const [recycleBinSelected, setRecycleBinSelected] = useState({});
   const [showDelete, setShowDelete] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [showInformation, setShowInformation] = useState(false);
@@ -50,8 +50,7 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     dispatch(actions.getListrecycleBin({}));
   }, []);
   const onClickRow = data => {
-    console.log('data', data);
-    setRecycleBinSelected(data.recycleBinID);
+    setRecycleBinSelected(data);
     setShowInformation(true);
   };
   const listPartner = useSelector(selectors.selectListRecycleBin());
@@ -114,15 +113,15 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
           type="normal"
           text={text}
           record={record}
-          titleEdit="Sửa Bãi đỗ xe"
+          titleEdit="Sửa Thông tin thùng rác"
           onClickEdit={() => {
             setShowAddAndEdit(true);
-            setRecycleBinSelected(record.RecycleBinID);
+            setRecycleBinSelected(record);
           }}
-          titleDelete="Xóa Bãi đõ xe"
+          titleDelete="Xóa Thùng rác"
           onClickDelete={() => {
             setShowDelete(true);
-            setRecycleBinSelected(record.RecycleBinID);
+            setRecycleBinSelected(record);
           }}
         />
       ),
@@ -146,7 +145,7 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
               type="primary"
               onClick={() => {
                 setShowAddAndEdit(true);
-                setRecycleBinSelected('');
+                setRecycleBinSelected({});
               }}
             >
               Thêm mới
@@ -192,15 +191,21 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         onClose={() => {
           setShowAddAndEdit(false);
         }}
-        data={idRecycleBinSelected}
+        data={recycleBinSelected}
+        refreshT={() => {
+          dispatch(actions.getListrecycleBin());
+        }}
       />
 
       <DeleteRecycleBin
         onClose={() => {
           setShowDelete(false);
         }}
-        data={idRecycleBinSelected}
+        data={recycleBinSelected}
         visible={showDelete}
+        refreshT={() => {
+          dispatch(actions.getListrecycleBin());
+        }}
       />
     </Content>
   );

@@ -1,31 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import axios from 'axios';
 import {
   ContainerLoading,
   Icon,
 } from '../../../Garage/component/DeleteGarage/style';
-import { useInjectReducer } from '../../../../utils/injectReducer';
-import { useInjectSaga } from '../../../../utils/injectSaga';
-import * as actions from '../../actions';
 import CustomModal from '../../../../res/components/CustomModal';
-import reducer from '../../reducer';
-import saga from '../../saga';
-import { REDUX_KEY } from '../../../../utils/constants';
 import iconAlert from '../../../../images/icon/iconAlert.svg';
-
-const key = REDUX_KEY.notification;
-const DeleteNotification = ({ data, visible, onClose }) => {
-  const dispatch = useDispatch();
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
-  const onSubmit = () => {
-    dispatch(actions.deleteNotification(data));
+import Notice from '../../../../res/components/Notice';
+const DeleteNotification = ({ data, visible, onClose, refreshT }) => {
+  const onSubmit = async () => {
+    const res = await axios.delete(
+      `https://localhost:7145/api/v1/Notification/${data.notificationID}`,
+    );
+    if (res.data === 1) {
+      refreshT();
+      onClose();
+    } else {
+      Notice({
+        msg: 'Đã có lỗi xả ra. Bạn vui lòng thử lại',
+        isSuccess: false,
+      });
+    }
   };
 
   return (
     <CustomModal
-      title="Xóa Thong bao"
+      title="Xóa Thông báo"
       width={550}
       visible={visible}
       onClickCancel={() => {
@@ -35,10 +36,14 @@ const DeleteNotification = ({ data, visible, onClose }) => {
         onSubmit();
         onClose();
       }}
+      nameSave="Xóa"
     >
       <ContainerLoading style={{ paddingTop: 35 }}>
         <Icon src={iconAlert} alt="" />
-        <div>Bạn có muốn xóa {data}</div>
+        <div>
+          Bạn có muốn xóa Thông báo{' '}
+          <span style={{ fontWeight: 600 }}>{data.notificationID}</span> không?
+        </div>
       </ContainerLoading>
     </CustomModal>
   );
@@ -48,6 +53,7 @@ DeleteNotification.propTypes = {
   data: PropTypes.object,
   onClose: PropTypes.func,
   visible: PropTypes.bool,
+  refreshT: PropTypes.func,
 };
 
 export default DeleteNotification;

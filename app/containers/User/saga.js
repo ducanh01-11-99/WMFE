@@ -19,7 +19,7 @@ export function* getListUser() {
 }
 
 export function* addUser(action) {
-  const path = '/api/v1/Garage';
+  const path = '/api/v1/User';
   try {
     const res = yield call(axiosPost, path, action.body);
     if (res.data) {

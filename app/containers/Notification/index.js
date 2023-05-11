@@ -35,7 +35,7 @@ const key = REDUX_KEY.notification;
 
 const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
   const [showAddAndEdit, setShowAddAndEdit] = useState(false);
-  const [idNotificationSelected, setNotificationSelected] = useState('');
+  const [notificationSelected, setNotificationSelected] = useState('');
   const [showDelete, setShowDelete] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [showInformation, setShowInformation] = useState(false);
@@ -49,7 +49,7 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     dispatch(actions.getListNotification({}));
   }, []);
   const onClickRow = data => {
-    setNotificationSelected(data.NotificationID);
+    setNotificationSelected(data);
     setShowInformation(true);
   };
   const listPartner = useSelector(selectors.selectListNotification());
@@ -87,15 +87,15 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
           type="normal"
           text={text}
           record={record}
-          titleEdit="Sửa Bãi đỗ xe"
-          onClickEdit={() => {
-            setShowAddAndEdit(true);
-            setNotificationSelected(record.NotificationID);
-          }}
-          titleDelete="Xóa Bãi đõ xe"
+          // titleEdit="Sửa Bãi đỗ xe"
+          // onClickEdit={() => {
+          //   setShowAddAndEdit(true);
+          //   setNotificationSelected(record);
+          // }}
+          titleDelete="Xóa Thông báo"
           onClickDelete={() => {
             setShowDelete(true);
-            setNotificationSelected(record.NotificationID);
+            setNotificationSelected(record);
           }}
         />
       ),
@@ -114,16 +114,19 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
             </ContentTitle>
           </HeaderLeft>
           <HeaderRight>
-            <Button
-              iconName="add"
-              type="primary"
-              onClick={() => {
-                setShowAddAndEdit(true);
-                setNotificationSelected('');
-              }}
-            >
-              Thêm mới
-            </Button>
+            <Tooltip title="Không hỗ trợ thêm mới thông báo">
+              <Button
+                disabled
+                iconName="add"
+                type="primary"
+                onClick={() => {
+                  setShowAddAndEdit(true);
+                  setNotificationSelected({});
+                }}
+              >
+                Thêm mới
+              </Button>
+            </Tooltip>
           </HeaderRight>
         </ContentHeader>
         <Table
@@ -165,15 +168,18 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         onClose={() => {
           setShowAddAndEdit(false);
         }}
-        data={idNotificationSelected}
+        data={notificationSelected}
       />
 
       <DeleteNotification
         onClose={() => {
           setShowDelete(false);
         }}
-        data={idNotificationSelected}
+        data={notificationSelected}
         visible={showDelete}
+        refreshT={() => {
+          dispatch(actions.getListNotification());
+        }}
       />
     </Content>
   );

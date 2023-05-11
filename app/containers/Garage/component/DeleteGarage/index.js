@@ -1,23 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { ContainerLoading, Icon } from './style';
-import { useInjectReducer } from '../../../../utils/injectReducer';
-import { useInjectSaga } from '../../../../utils/injectSaga';
-import * as actions from '../../actions';
-import CustomModal from '../../../../res/components/CustomModal';
-import reducer from '../../reducer';
-import saga from '../../saga';
-import { REDUX_KEY } from '../../../../utils/constants';
-import iconAlert from '../../../../images/icon/iconAlert.svg';
 
-const key = REDUX_KEY.garage;
-const DeleteGarage = ({ data, visible, onClose }) => {
-  const dispatch = useDispatch();
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
-  const onSubmit = () => {
-    dispatch(actions.deleteGarage(data));
+import axios from 'axios';
+import { ContainerLoading, Icon } from './style';
+import CustomModal from '../../../../res/components/CustomModal';
+import iconAlert from '../../../../images/icon/iconAlert.svg';
+import Notice from '../../../../res/components/Notice';
+
+const DeleteGarage = ({ data, visible, onClose, refreshT }) => {
+  const onSubmit = async () => {
+    const res = await axios.delete(
+      `https://localhost:7145/api/v1/Garage/${data.garageID}`,
+    );
+    if (res.data === 1) {
+      refreshT();
+      onClose();
+    } else {
+      Notice({
+        msg: 'Đã có lỗi xả ra. Bạn vui lòng thử lại',
+        isSuccess: false,
+      });
+    }
   };
 
   return (
@@ -32,10 +35,14 @@ const DeleteGarage = ({ data, visible, onClose }) => {
         onSubmit();
         onClose();
       }}
+      nameSave="Xóa"
     >
       <ContainerLoading style={{ paddingTop: 35 }}>
         <Icon src={iconAlert} alt="" />
-        <div>Bạn có muốn xóa Bãi để xe: + {data}</div>
+        <div>
+          Bạn có muốn xóa Bãi để xe:{' '}
+          <span style={{ fontWeight: 600 }}>{data.garageID}</span> không?
+        </div>
       </ContainerLoading>
     </CustomModal>
   );
@@ -45,6 +52,7 @@ DeleteGarage.propTypes = {
   data: PropTypes.object,
   onClose: PropTypes.func,
   visible: PropTypes.bool,
+  refreshT: PropTypes.func,
 };
 
 export default DeleteGarage;

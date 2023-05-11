@@ -19,14 +19,13 @@ export default function CustomModal({
   isCustomFooter,
   buttonCustom,
   title,
-  nameCancel,
   nameSave,
-  nameSaveAndReset,
   isSaveIsReset,
   isLoading,
   onSave,
   onSaveAndReset,
   isModalInformation,
+  visible,
 }) {
   const { t } = useTranslation();
 
@@ -59,7 +58,7 @@ export default function CustomModal({
       closable
       maskClosable={false}
       width={width || 1180}
-      visible
+      visible={visible}
       onCancel={onClickCancel}
       onOk={onSave}
       footer={[
@@ -67,7 +66,7 @@ export default function CustomModal({
           {isModalInformation ? (
             <>
               <StyleButtonClose onClick={onClickCancel}>
-                <div>{nameCancel || t('common.closeModal')}</div>
+                <div>Đóng</div>
               </StyleButtonClose>
             </>
           ) : (
@@ -77,23 +76,23 @@ export default function CustomModal({
               ) : (
                 <DivFooter>
                   <StyleButtonClose onClick={onClickCancel}>
-                    <div>{nameCancel || t('common.closeModal')}</div>
+                    <div>Đóng</div>
                   </StyleButtonClose>
                   {isSaveIsReset &&
                     (!disableSaveButton ? (
                       <ButtonSave loading={isLoading} onClick={onSaveAndReset}>
-                        {nameSaveAndReset || t('common.saveAndNext')}
+                        Lưu lại và Thêm tiếp
                       </ButtonSave>
                     ) : (
                       <Tooltip title={disableSaveMessage}>
                         <ButtonSave loading={isLoading} disable>
-                          {nameSaveAndReset || t('common.saveAndNext')}
+                          Lưu lại và Thêm tiếp
                         </ButtonSave>
                       </Tooltip>
                     ))}
                   {!disableSaveButton ? (
                     <ButtonSave loading={isLoading} onClick={onSave}>
-                      {nameSave || t('common.saveModal')}
+                      Lưu lại
                     </ButtonSave>
                   ) : (
                     <Tooltip title={disableSaveMessage}>
@@ -124,12 +123,11 @@ CustomModal.propTypes = {
   buttonCustom: PropTypes.any,
   title: PropTypes.string,
   isLoading: PropTypes.bool,
-  nameCancel: PropTypes.string,
   nameSave: PropTypes.string,
-  nameSaveAndReset: PropTypes.string,
   isSaveIsReset: PropTypes.bool,
   onSave: PropTypes.func,
   onSaveAndReset: PropTypes.func,
   isModalInformation: PropTypes.bool,
   disableSaveMessage: PropTypes.string,
+  visible: PropTypes.bool,
 };

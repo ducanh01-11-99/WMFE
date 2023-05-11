@@ -101,7 +101,7 @@ const LayoutLogged = ({
   return (
     <Route
       render={() => (
-        <Layout style={{ height: '100%' }}>
+        <Layout style={{ height: '100vh' }}>
           <Header
             iconMenu={iconMenu}
             onClickMenu={onClickMenu}
@@ -114,7 +114,7 @@ const LayoutLogged = ({
             onSelectSearch={onSelectSearch}
             onClickFilterBtn={() => setIsShowSearch(false)}
           />
-          <Layout style={{ backgroundColor: 'white' }}>
+          <Layout style={{ backgroundColor: 'white', height: '100%' }}>
             <Sidebar
               isExpand={menuExpand}
               minWidth="64px"

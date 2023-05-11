@@ -112,7 +112,7 @@ module.exports = options => ({
       NODE_ENV: 'development',
       // Call API bang link nay
       // Connect backend here
-      URL: 'https://',
+      URL: 'https://localhost:7145',
     }),
   ]),
   resolve: {

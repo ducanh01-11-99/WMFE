@@ -36,6 +36,11 @@ export const REDUX_KEY = {
   app: 'app',
   login: 'login',
   homePage: 'homePage',
+  garage: 'garage',
+  garbageTruck: 'garbage',
+  notification: 'notification',
+  recycleBin: 'recyclebin',
+  User: 'user',
 };
 
 export const TIME_ALL = '1';
@@ -45,38 +50,6 @@ export const TIME_OPTION_FROM_LAST_WEEK = '4';
 export const TIME_OPTION_FROM_THIS_MONTH = '5';
 export const TIME_OPTION_FORM_LAST_MONTH = '6';
 export const TIME_OPTION_PERIOD = '7';
-
-export const LIST_CREATE_TIME = [
-  {
-    value: TIME_ALL,
-    label: 'Tất cả',
-  },
-  {
-    value: TIME_OPTION_TODAY,
-    label: 'Hôm nay',
-  },
-  {
-    value: TIME_OPTION_FROM_THIS_WEEK,
-    label: 'Từ tuần này',
-  },
-  {
-    value: TIME_OPTION_FROM_LAST_WEEK,
-    label: 'Từ đầu tuần trước',
-  },
-  {
-    value: TIME_OPTION_FROM_THIS_MONTH,
-    label: 'Từ đầu tháng này',
-  },
-  {
-    value: TIME_OPTION_FORM_LAST_MONTH,
-    label: 'Từ đầu tháng trước',
-  },
-  {
-    value: TIME_OPTION_PERIOD,
-    label: 'Khoảng thời gian',
-  },
-];
-
 export const PATH_ROOT = '/';
 export const PATH_LOGIN = '/login';
 export const PATH_PARTNER = '/partner';

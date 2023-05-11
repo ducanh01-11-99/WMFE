@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StatusContainer, StatusLabel, StatusProfile } from './styles';
+import { StatusContainer, StatusLabel } from './styles';
 import ButtonFunctionList from '../ButtonFunctionList';
 
 const TableFunction = ({
@@ -20,8 +20,9 @@ const TableFunction = ({
 }) => (
   <>
     <StatusContainer>
-      {type === 'normal' && <StatusLabel active={record.isActive}>{text}</StatusLabel>}
-      {type === 'profile' && <StatusProfile status={record.profileStatusId}>{text}</StatusProfile>}
+      {type === 'normal' && (
+        <StatusLabel active={record.isActive}>{text}</StatusLabel>
+      )}
       <div className="listButton">
         <ButtonFunctionList
           titleEdit={titleEdit}

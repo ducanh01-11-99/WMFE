@@ -22,11 +22,7 @@ function checkStatus(response) {
 }
 
 const instance = axios.create({
-  baseURL: `${
-    process.env.NODE_ENV === 'production'
-      ? window.SystemConfig.URL
-      : process.env.URL
-  }/api`,
+  baseURL: 'https://localhost:7145',
 });
 
 instance.defaults.timeout = 25000;

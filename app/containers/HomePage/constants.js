@@ -9,3 +9,11 @@ export const GET_DATA_BANNER = `${REDUX_KEY.homePage}/GET_DATA_BANNER`;
 export const GET_DATA_BANNER_SUCCESS = `${
   REDUX_KEY.homePage
 }/GET_DATA_BANNER_SUCCESS`;
+
+export const GET_LIST_RECYCLE_BIN = `${
+  REDUX_KEY.homePage
+}/GET_LIST_RECYCLE_BIN`;
+
+export const GET_LIST_RECYCLE_BIN_SUCCESS = `${
+  REDUX_KEY.homePage
+}/GET_LIST_RECYCLE_BIN_SUCCESS`;

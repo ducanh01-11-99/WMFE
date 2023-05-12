@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Col, Row, Input } from 'antd';
+import { Col, Row } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 
 import {
@@ -10,6 +10,7 @@ import {
   Marker,
 } from '@react-google-maps/api';
 
+import axios from 'axios';
 import {
   ButtonLogin,
   DivIconSearch,
@@ -22,53 +23,12 @@ import IconSearch from '../../images/search2.svg';
 
 import IconDustbinGreen from '../../images/icon/dustbin/dustbingreen.svg';
 
-import parking from '../../images/icon/icon-setting-gray.svg';
-
 import ListInfor from './component/ListInfo';
 import InfoDiv from './component/InforDiv';
 import Options from './component/Options';
-
 const center = {
-  lat: 20.993112,
-  lng: 105.946659,
-};
-
-const listPosition = [
-  { lat: 20.993112, lng: 105.946659 },
-  { lat: 20.9929, lng: 105.946991 },
-  { lat: 20.992316, lng: 105.948049 },
-  { lat: 20.991647, lng: 105.949134 },
-  { lat: 20.990527, lng: 105.95113 },
-  { lat: 20.992117, lng: 105.945606 },
-  { lat: 20.993398, lng: 105.944799 },
-  { lat: 20.993409, lng: 105.943233 },
-  { lat: 20.994697, lng: 105.941137 },
-  { lat: 20.993224, lng: 105.940171 },
-  { lat: 20.993144, lng: 105.940197 },
-  { lat: 20.990682, lng: 105.941175 },
-  { lat: 20.988679, lng: 105.943626 },
-  { lat: 20.988915, lng: 105.945801 },
-  { lat: 20.989871, lng: 105.944429 },
-  { lat: 20.989066, lng: 105.948761 },
-  { lat: 20.991733, lng: 105.952366 },
-  { lat: 20.994232, lng: 105.950008 },
-  { lat: 20.996745, lng: 105.954591 },
-  { lat: 20.99524, lng: 105.954504 },
-  { lat: 20.996078, lng: 105.955895 },
-  { lat: 20.995066, lng: 105.958842 },
-  { lat: 20.992753, lng: 105.955551 },
-];
-
-const listTR = [
-  { lat: 20.998098, lng: 105.944198 },
-  { lat: 21.000643, lng: 105.954004 },
-  { lat: 20.989051, lng: 105.960916 },
-  { lat: 20.987125, lng: 105.940406 },
-];
-
-const target = {
-  lat: 21.027,
-  lng: 105.8347,
+  lat: 21.036891,
+  lng: 105.781659,
 };
 
 const HomePage = () => {
@@ -82,19 +42,26 @@ const HomePage = () => {
     history.push('./login');
   };
 
-  const calculateRoute = async () => {
+  const [listRecycleBin, setListRecycleBin] = useState([]);
+
+  const calculateRoute = async (userPost, recycleBinPost) => {
+    console.log(userPost);
+    console.log(recycleBinPost);
     // eslint-disable-next-line no-undef
     const directonService = new google.maps.DirectionsService();
     const results = await directonService.route({
-      origin: { lat: 20.998098, lng: 105.944198 },
-      destination: { lat: 20.99524, lng: 105.954504 },
+      origin: {
+        lat: parseFloat(userPost.toString().split(',')[0]),
+        lng: parseFloat(userPost.toString().split(',')[1]),
+      },
+      destination: {
+        lat: parseFloat(recycleBinPost.toString().split(',')[0]),
+        lng: parseFloat(recycleBinPost.toString().split(',')[1]),
+      },
 
       // eslint-disable-next-line no-undef
       travelMode: google.maps.TravelMode.WALKING,
     });
-
-    console.log('adada', results);
-
     setDirectionsResponse(results);
     setDistance(results.routes[0].legs[0].distance.text);
     setDuration(results.routes[0].legs[0].distance.text);
@@ -105,9 +72,19 @@ const HomePage = () => {
     googleMapsApiKey: 'AIzaSyB1fbo7x3EFQrDkKHw70pLIRpKwZXELbuU',
   });
 
+  // eslint-disable-next-line no-unused-vars
   const [mapA, setMap] = React.useState(null);
 
-  console.log(mapA);
+  // lấy danh sách thùng rác
+  const loadData = async () => {
+    const res = await axios.get('https://localhost:7145/api/v1/RecycleBin');
+    console.log(res);
+    setListRecycleBin(res.data);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const onLoad = React.useCallback(function callback(map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
@@ -116,8 +93,8 @@ const HomePage = () => {
     setMap(map);
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const onUnmount = React.useCallback(function callback(map) {
-    console.log(map);
     setMap(null);
   }, []);
 
@@ -170,35 +147,38 @@ const HomePage = () => {
         <Options />
       </Content>
       <div style={{ height: '100vh', width: '100%' }}>
-        <div>
+        <>
           <span>vị trí của bạn</span>
-          <Input />
-          <Button onClick={calculateRoute}>Click</Button>
-        </div>
+          <input id="theInput" />
+        </>
         {isLoaded && (
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '100%' }}
             center={center}
-            zoom={20}
+            zoom={5}
             onLoad={onLoad}
             onUnmount={onUnmount}
           >
-            <Marker position={center} icon={IconDustbinGreen} />
-            <Marker position={target} />
             {/* eslint-disable-next-line no-shadow */}
-            {listPosition.map(items => (
-              <Marker
-                position={{ lat: items.lat, lng: items.lng }}
-                icon={IconDustbinGreen}
-              />
-            ))}
-
-            {/* eslint-disable-next-line no-shadow */}
-            {listTR.map(items => (
-              <Marker
-                position={{ lat: items.lat, lng: items.lng }}
-                icon={parking}
-              />
+            {listRecycleBin.map(items => (
+              <>
+                <Marker
+                  title={`Thùng rác${items.recycleBinID}.Tình trạng${
+                    items.recyclebinStatus
+                  }`}
+                  position={{
+                    lat: parseFloat(items.location.split(',')[0]),
+                    lng: parseFloat(items.location.split(',')[1]),
+                  }}
+                  icon={IconDustbinGreen}
+                  onClick={() => {
+                    calculateRoute(
+                      '21.036891, 105.781659',
+                      items.location.toString(),
+                    );
+                  }}
+                />
+              </>
             ))}
 
             {directionResponse && (

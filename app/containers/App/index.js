@@ -28,6 +28,7 @@ import GarbageTruck from '../GarbageTruck/LoadableGarbageTruck';
 import RecycleBin from '../RecycleBin/LoadableRecycleBin';
 import Notification from '../Notification/LoadableNotifications';
 import User from '../User/LoadableUser';
+import Dashboard from '../DashBoard/LoadableDashBoard';
 
 export default function App() {
   return (
@@ -73,6 +74,13 @@ export default function App() {
             exact
             path="/user"
             component={User}
+            showSearch
+            placeholderSearch="Tim kiem"
+          />
+          <LayoutLogged
+            exact
+            path="/dashboard"
+            component={Dashboard}
             showSearch
             placeholderSearch="Tim kiem"
           />

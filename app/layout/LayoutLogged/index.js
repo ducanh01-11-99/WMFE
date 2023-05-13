@@ -21,6 +21,13 @@ const LayoutLogged = ({
   const MENU_DATA = [
     {
       // garage
+      key: '6',
+      path: '/dashboard',
+      icon: iconMenuDashBoard,
+      label: 'Quản lý Chung',
+    },
+    {
+      // garage
       key: '1',
       path: '/garage',
       icon: iconMenuDashBoard,
@@ -56,7 +63,7 @@ const LayoutLogged = ({
   ];
 
   const history = useHistory();
-  const PERMISSION_MENU = ['1', '2', '3', '4', '5'];
+  const PERMISSION_MENU = ['6', '1', '2', '3', '4', '5'];
   const token = Cookies.get(COOKIES.accessTokenTest);
   const [menuExpand, setMenuExpand] = useState(true);
   const { pathname } = history.location;
@@ -71,7 +78,7 @@ const LayoutLogged = ({
       if (!localStorage.getItem(STORAGE.expandMenu)) {
         setMenuExpand(true);
       } else {
-        setMenuExpand(localStorage.getItem(STORAGE.expandMenu) === '1');
+        setMenuExpand(localStorage.getItem(STORAGE.expandMenu) === '6');
       }
     }
     setIsShowSearch(showSearch);
@@ -81,7 +88,7 @@ const LayoutLogged = ({
 
   const onClickMenu = () => {
     setMenuExpand(!menuExpand);
-    localStorage.setItem(STORAGE.expandMenu, !menuExpand ? '1' : '0');
+    localStorage.setItem(STORAGE.expandMenu, !menuExpand ? '6' : '0');
   };
 
   const onPressEnter = e => {

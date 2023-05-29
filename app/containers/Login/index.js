@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Row, Image } from 'antd';
+import { Button, Col, Form, Row } from 'antd';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { LoginStyled, LoginWrapper } from './stylesLogin';
 import ChangePasswordModal from '../component/ChangePasswordModal';
-import image from '../../images/checkedIcon.svg';
 import FloatingLabel from '../../res/components/FloatingLabel/Input';
+import { COOKIES } from '../../utils/constants';
 
 const Login = () => {
   const history = useHistory();
@@ -15,7 +17,17 @@ const Login = () => {
     form
       .validateFields()
       .then(value => {
-        console.log('value', value);
+        axios
+          .post('https://localhost:7145/api/v1/User/signin', {
+            userName: value.email,
+            password: value.password,
+            userID: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          })
+          .then(res => {
+            console.log(res.data);
+            Cookies.set(COOKIES.accessTokenTest, res.data);
+            history.push('./dashboard');
+          });
       })
       .catch(err => {
         console.log(err);
@@ -35,9 +47,7 @@ const Login = () => {
     <LoginStyled>
       <LoginWrapper style={{ backgroundColor: 'white' }}>
         <Row gutter={24} style={{ height: '100%' }}>
-          <Col span={12} style={{ background: 'green' }}>
-            <Image src={image} />
-          </Col>
+          <Col span={6} />
           <Col span={12}>
             <div
               style={{
@@ -103,6 +113,7 @@ const Login = () => {
               </div>
             </Form>
           </Col>
+          <Col span={6} />
         </Row>
 
         {openModal && (

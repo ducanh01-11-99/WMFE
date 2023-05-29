@@ -87,20 +87,8 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       key: 'recycleBinID',
       width: '400px',
     },
-
     {
-      title: 'Tọa độ',
-      dataIndex: 'location',
-      key: 'location',
-      render: (text, record) => (
-        <BoldItaly
-          name1={record.location.toString().split(',')[0]}
-          name2={record.location.toString().split(',')[1]}
-        />
-      ),
-    },
-    {
-      title: 'Usages',
+      title: 'Lượng người dùng',
       dataIndex: 'usages',
       key: 'usages',
     },

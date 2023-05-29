@@ -43,7 +43,7 @@ const ErrorPage = ({ code }) => {
         title={status}
         subTitle={subTitle}
         extra={
-          <Button onClick={() => history.push('/')} type="primary">
+          <Button onClick={() => history.push('/homepage')} type="primary">
             Trở về trang chủ
           </Button>
         }

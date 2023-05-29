@@ -88,7 +88,7 @@ const LayoutLogged = ({
 
   const onClickMenu = () => {
     setMenuExpand(!menuExpand);
-    localStorage.setItem(STORAGE.expandMenu, !menuExpand ? '6' : '0');
+    localStorage.setItem(STORAGE.expandMenu, !menuExpand ? '6' : '1');
   };
 
   const onPressEnter = e => {
@@ -118,7 +118,7 @@ const LayoutLogged = ({
           <Header
             iconMenu={iconMenu}
             onClickMenu={onClickMenu}
-            onClickLogo={() => history.push('/')}
+            onClickLogo={() => history.push('/dashbroad')}
             visible={openPopoverAccount}
             onVisibleChange={visible => setOpenPopoverAccount(visible)}
             showSearch={isShowSearch}

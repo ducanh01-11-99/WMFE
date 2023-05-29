@@ -20,9 +20,7 @@ const ForgetPassword = () => {
     <LoginStyled>
       <LoginWrapper style={{ backgroundColor: 'white' }}>
         <Row gutter={24} style={{ height: '100%' }}>
-          <Col span={12} style={{ background: 'green' }}>
-            Left container
-          </Col>
+          <Col span={6} />
           <Col span={12}>
             <div style={{ height: '30%', marginTop: '30%' }}>
               <div
@@ -66,6 +64,7 @@ const ForgetPassword = () => {
               </Form>
             </div>
           </Col>
+          <Col span={6} />
         </Row>
       </LoginWrapper>
     </LoginStyled>

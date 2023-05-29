@@ -10,7 +10,7 @@ import {
 } from 'date-fns';
 import {
   COOKIES,
-  PATH_LOGIN,
+  PATH_HOMEPAGE,
   TIME_ALL,
   TIME_OPTION_FORM_LAST_MONTH,
   TIME_OPTION_FROM_LAST_WEEK,
@@ -116,10 +116,10 @@ export const formatFullDateTime = (time, type) => {
 
 /* Hàm đăng xuất */
 export const logOut = () => {
-  Cookies.remove(COOKIES.accessToken);
+  Cookies.remove(COOKIES.accessTokenTest);
   Cookies.remove(COOKIES.refreshToken);
   localStorage.clear();
-  history.push(PATH_LOGIN);
+  history.push(PATH_HOMEPAGE);
 };
 
 /* Ham lay thoi gian bat dau cua mot ngay */

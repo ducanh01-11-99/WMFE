@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 
 import {
@@ -63,13 +63,11 @@ const HomePage = () => {
       travelMode: google.maps.TravelMode.WALKING,
     });
     setDirectionsResponse(results);
-    setDistance(results.routes[0].legs[0].distance.text);
-    setDuration(results.routes[0].legs[0].distance.text);
   };
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyB1fbo7x3EFQrDkKHw70pLIRpKwZXELbuU',
+    googleMapsApiKey: 'AIzaSyBhP-QUDjRJcOHhu5dzxSmXo3LR3nuxkAo',
   });
 
   // eslint-disable-next-line no-unused-vars
@@ -150,6 +148,15 @@ const HomePage = () => {
         <>
           <span>vị trí của bạn</span>
           <input id="theInput" />
+          <Button
+            onClick={() => {
+              const pos = document.getElementById('theInput').value;
+              console.log('pos', parseFloat(pos.split(',')[0]));
+              console.log('pos', parseFloat(pos.split(',')[1]));
+            }}
+          >
+            Click
+          </Button>
         </>
         {isLoaded && (
           <GoogleMap
@@ -172,10 +179,15 @@ const HomePage = () => {
                   }}
                   icon={IconDustbinGreen}
                   onClick={() => {
-                    calculateRoute(
-                      '21.036891, 105.781659',
-                      items.location.toString(),
-                    );
+                    const res = document.getElementById('theInput').value;
+                    if (res.toString().includes(',')) {
+                      calculateRoute(res, items.location.toString());
+                    } else {
+                      calculateRoute(
+                        '21.036891, 105.781659',
+                        items.location.toString(),
+                      );
+                    }
                   }}
                 />
               </>

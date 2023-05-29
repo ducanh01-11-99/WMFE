@@ -2,29 +2,23 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
-import {
-  COOKIES,
-  PATH_LOGIN,
-  PATH_PARTNER,
-  PATH_ROOT,
-} from '../../utils/constants';
+import { COOKIES, PATH_ROOT } from '../../utils/constants';
 
 const LayoutNotLogin = ({ path, component: Component }) => {
   const token = Cookies.get(COOKIES.accessTokenTest);
-  console.log(token);
   return (
     <Route
       render={() =>
         !token ? (
           path === { PATH_ROOT } ? (
-            <Redirect to={PATH_LOGIN} />
+            <Redirect to="/homepage" />
           ) : (
             <div>
               <Component />
             </div>
           )
         ) : (
-          <Redirect to={PATH_PARTNER} />
+          <Redirect to={PATH_ROOT} />
         )
       }
     />

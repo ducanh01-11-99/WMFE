@@ -114,7 +114,7 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
             </ContentTitle>
           </HeaderLeft>
           <HeaderRight>
-            <Tooltip title="Không hỗ trợ thêm mới thông báo">
+            <Tooltip title="Không hỗ trợ thêm mới thông báo" placement="left">
               <Button
                 disabled
                 iconName="add"

@@ -17,7 +17,7 @@ const center = {
 
 const DashBoard = () => {
   // eslint-disable-next-line no-unused-vars
-  const [directionResponse, setDirectionsResponse] = useState(null);
+  const [directionResponse, setDirectionsResponse] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [distance, setDistance] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -26,35 +26,47 @@ const DashBoard = () => {
   const [listGara, setListGara] = useState([]);
   const [listTruck, setListTruck] = useState([]);
 
-  // mang chi dan
-  // const [listDirect, setListDirect] = useState([]);
+  // const getCoordinatesAA = id => {
+  //   for(let i = 0; i < listRecycleBin.length; i++) {
+  //     if (listRecycleBin[i].recycleBinID === id) {
+  //       return listRecycleBin[i].location.toString();
+  //     }
+  //   }
+  // };
 
-  // const calculateRoute = async (userPost, recycleBinPost) => {
+  // const calculateRoute = async () => {
   //   // eslint-disable-next-line no-undef
   //   const directonService = new google.maps.DirectionsService();
-  //   listTruck.map(async () => {
-  //     const results = await directonService.route({
-  //       origin: {
-  //         lat: parseFloat(userPost.toString().split(',')[0]),
-  //         lng: parseFloat(userPost.toString().split(',')[1]),
-  //       },
-  //       destination: {
-  //         lat: parseFloat(recycleBinPost.toString().split(',')[0]),
-  //         lng: parseFloat(recycleBinPost.toString().split(',')[1]),
-  //       },
-  //
-  //       // eslint-disable-next-line no-undef
-  //       travelMode: google.maps.TravelMode.WALKING,
-  //     });
-  //     console.log(results);
-  //     // setDirectionsResponse(results);
-  //     // setDistance(results.routes[0].legs[0].distance.text);
-  //     // setDuration(results.routes[0].legs[0].distance.text);
+  //   listTruck.map(async item => {
+  //     // duyet qua tung xe trong mang danh sach xe
+  //     if (item.recycleBinIDList !== null) {
+  //       const arr = item.recycleBinIDList.split(';');
+  //       // Danh sách thùng rác đã được sắp xếp theo thứ tự, đường đi A -> B, B -> C
+  //       for (let i = 0; i < arr.length - 2; i++) {
+  //         // const cor1 = getCoordinatesAA(arr[i]);
+  //         // const cor2 = getCoordinatesAA(arr[i + 1]);
+  //         // eslint-disable-next-line no-await-in-loop
+  //         const results = await directonService.route({
+  //           origin: {
+  //             lat: parseFloat(cor1 ? cor1.split(',')[0] : null),
+  //             lng: parseFloat(cor1 ? cor1.split(',')[1] : null),
+  //           },
+  //           destination: {
+  //             lat: parseFloat(cor2 ? cor2.split(',')[0] : null),
+  //             lng: parseFloat(cor2 ? cor2.split(',')[1] : null),
+  //           },
+  //           // eslint-disable-next-line no-undef
+  //           travelMode: google.maps.TravelMode.DRIVING,
+  //         });
+  //         setDirectionsResponse(directionResponse.concat(results));
+  //       }
+  //     }
   //   });
   // };
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyB1fbo7x3EFQrDkKHw70pLIRpKwZXELbuU',
+    googleMapsApiKey: 'AIzaSyBhP-QUDjRJcOHhu5dzxSmXo3LR3nuxkAo',
   });
 
   useEffect(() => {
@@ -75,11 +87,16 @@ const DashBoard = () => {
     setListRecycleBin(res.data);
     setListTruck(listTruckA.data);
   };
+  useEffect(() => {
+    if (listTruck.length > 0 && listRecycleBin.length > 0) {
+      // calculateRoute();
+    }
+  }, [listRecycleBin, listTruck]);
 
   // 30s load api 1 lan
   setTimeout(() => {
     loadData();
-  }, 30000);
+  }, 10000);
 
   const onLoad = React.useCallback(function callback(map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
@@ -152,9 +169,12 @@ const DashBoard = () => {
               // eslint-disable-next-line react/jsx-no-comment-textnodes
             ))}
             // tao danh sach tat ca ket noi xong cho vao map item
-            {directionResponse && (
-              <DirectionsRenderer directions={directionResponse} />
-            )}
+            {directionResponse &&
+              // eslint-disable-next-line array-callback-return
+              directionResponse.map(item => {
+                // eslint-disable-next-line no-unused-expressions
+                <DirectionsRenderer directions={item} />;
+              })}
           </GoogleMap>
         )}
       </ContentWrapper>

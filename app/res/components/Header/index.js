@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Tooltip } from 'antd';
 import {
   HeaderEtn,
   ContainerHeader,
@@ -9,8 +10,11 @@ import {
   RightHeader,
   PopoverCustom,
   LayoutSearch,
+  IconUser,
 } from './style';
 import SearchField from '../InputField/SearchField';
+import { logOut } from '../../commonFunction';
+import defaultAvatar from '../../../images/avatarDefault.svg';
 
 const Header = ({
   iconMenu,
@@ -59,18 +63,23 @@ const Header = ({
           trigger="click"
           overlayStyle={{ paddingRight: '15px' }}
         >
-          {/* {!visible ? ( */}
-          {/*  <Tooltip */}
-          {/*    placement="bottomLeft" */}
-          {/*    title={contentHoverAvatar} */}
-          {/*    color="white" */}
-          {/*    overlayStyle={{ maxWidth: '407px' }} */}
-          {/*  > */}
-          {/*    <IconUser alt="" /> */}
-          {/*  </Tooltip> */}
-          {/* ) : ( */}
-          {/*  <IconUser alt="" /> */}
-          {/* )} */}
+          {!visible ? (
+            <Tooltip
+              placement="bottomLeft"
+              overlayStyle={{ maxWidth: '407px' }}
+              title="DDawng xuat"
+            >
+              <IconUser
+                src={defaultAvatar}
+                alt=""
+                onClick={() => {
+                  logOut();
+                }}
+              />
+            </Tooltip>
+          ) : (
+            <IconUser alt="" />
+          )}
         </PopoverCustom>
       </RightHeader>
     </ContainerHeader>

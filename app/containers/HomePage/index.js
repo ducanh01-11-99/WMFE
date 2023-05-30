@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 
 import {
@@ -38,6 +38,7 @@ const HomePage = () => {
   const [distance, setDistance] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [duration, setDuration] = useState('');
+  const [geoLocation, setGeoLocation] = useState({});
   const clickLogin = () => {
     history.push('./login');
   };
@@ -45,14 +46,12 @@ const HomePage = () => {
   const [listRecycleBin, setListRecycleBin] = useState([]);
 
   const calculateRoute = async (userPost, recycleBinPost) => {
-    console.log(userPost);
-    console.log(recycleBinPost);
     // eslint-disable-next-line no-undef
     const directonService = new google.maps.DirectionsService();
     const results = await directonService.route({
       origin: {
-        lat: parseFloat(userPost.toString().split(',')[0]),
-        lng: parseFloat(userPost.toString().split(',')[1]),
+        lat: geoLocation.lat,
+        lng: geoLocation.lng,
       },
       destination: {
         lat: parseFloat(recycleBinPost.toString().split(',')[0]),
@@ -110,6 +109,25 @@ const HomePage = () => {
       key: 'item3',
     },
   ];
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      console.log(234);
+    }
+  };
+
+  const showPosition = position => {
+    setGeoLocation({
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+    });
+  };
   return (
     <div>
       <HeaderLayout>
@@ -147,16 +165,6 @@ const HomePage = () => {
       <div style={{ height: '100vh', width: '100%' }}>
         <>
           <span>vị trí của bạn</span>
-          <input id="theInput" />
-          <Button
-            onClick={() => {
-              const pos = document.getElementById('theInput').value;
-              console.log('pos', parseFloat(pos.split(',')[0]));
-              console.log('pos', parseFloat(pos.split(',')[1]));
-            }}
-          >
-            Click
-          </Button>
         </>
         {isLoaded && (
           <GoogleMap

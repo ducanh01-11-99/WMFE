@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Col, Row } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
-
 import {
   GoogleMap,
   useJsApiLoader,
   DirectionsRenderer,
   Marker,
+  InfoWindow,
 } from '@react-google-maps/api';
 
-import axios from 'axios';
 import {
   ButtonLogin,
   DivIconSearch,
@@ -22,6 +21,10 @@ import Banner from './component/Banner';
 import IconSearch from '../../images/search2.svg';
 
 import IconDustbinGreen from '../../images/icon/dustbin/dustbingreen.svg';
+import IconDustbinRed from '../../images/icon/dustbin/dustbinred.svg';
+import IconDustbinYellow from '../../images/icon/dustbin/dustbinorange.svg';
+import IconDustbinGray from '../../images/icon/dustbin/dustbinblue.svg';
+import Avatar from '../../images/avatarDefault.svg';
 
 import ListInfor from './component/ListInfo';
 import InfoDiv from './component/InforDiv';
@@ -72,11 +75,21 @@ const HomePage = () => {
   // eslint-disable-next-line no-unused-vars
   const [mapA, setMap] = React.useState(null);
 
+  // eslint-disable-next-line no-unused-vars
+  const [showInfo, setShowInfor] = useState(false);
+
   // lấy danh sách thùng rác
   const loadData = async () => {
-    const res = await axios.get('https://localhost:7145/api/v1/RecycleBin');
-    console.log(res);
-    setListRecycleBin(res.data);
+    // const res = await axios.get('https://localhost:7145/api/v1/RecycleBin');
+    // console.log(res);
+    // setListRecycleBin(res.data);
+    // fake data
+    setListRecycleBin([
+      { name: 'TR1', location: '21.036891, 105.781659', status: '1', id: 1 },
+      { name: 'TR2', location: '21.046881, 105.781459', status: '2', id: 2 },
+      { name: 'TR3', location: '21.056871, 105.781559', status: '3', id: 3 },
+      { name: 'TR4', location: '21.066861, 105.781359', status: '4', id: 4 },
+    ]);
   };
 
   useEffect(() => {
@@ -128,6 +141,74 @@ const HomePage = () => {
       lng: position.coords.longitude,
     });
   };
+
+  const statusToText = idStatus => {
+    let str = '';
+    switch (idStatus) {
+      case '1':
+        str = 'Chưa đầy';
+        break;
+      case '2':
+        str = 'Gần đầy';
+        break;
+      case '3':
+        str = 'Đã đầy';
+        break;
+      case '4':
+        str = 'Bảo trì';
+        break;
+      default:
+        str = 'Không xác định';
+        break;
+    }
+    return str;
+  };
+
+  const statusToIcon = idStatus => {
+    let iCon = null;
+    switch (idStatus) {
+      case '1':
+        iCon = IconDustbinGreen;
+        break;
+      case '2':
+        iCon = IconDustbinYellow;
+        break;
+      case '3':
+        iCon = IconDustbinRed;
+        break;
+      case '4':
+        iCon = IconDustbinGray;
+        break;
+      default:
+        iCon = IconDustbinGray;
+        break;
+    }
+    return iCon;
+  };
+  const statusToColor = idStatus => {
+    let color = '';
+    switch (idStatus) {
+      case '1':
+        color = '#00FF00';
+        break;
+      case '2':
+        color = '#FFFF00';
+        break;
+      case '3':
+        color = '#FF0000';
+        break;
+      case '4':
+        color = '#8B8B7A';
+        break;
+      default:
+        color = '#8B8B7A';
+        break;
+    }
+    return color;
+  };
+
+  const [idSelected, setIdSelected] = useState(0);
+
   return (
     <div>
       <HeaderLayout>
@@ -163,44 +244,79 @@ const HomePage = () => {
         <Options />
       </Content>
       <div style={{ height: '100vh', width: '100%' }}>
-        <>
-          <span>vị trí của bạn</span>
-        </>
         {isLoaded && (
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '100%' }}
             center={center}
-            zoom={5}
+            zoom={2}
             onLoad={onLoad}
             onUnmount={onUnmount}
           >
+            <Marker
+              position={{ lat: geoLocation.lat, lng: geoLocation.lng }}
+              icon={Avatar}
+            />
             {/* eslint-disable-next-line no-shadow */}
             {listRecycleBin.map(items => (
               <>
+                {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
                 <Marker
-                  title={`Thùng rác${items.recycleBinID}.Tình trạng${
-                    items.recyclebinStatus
-                  }`}
+                  // onLoad={onLoad}
+                  // onUnmount={onUnmount}
                   position={{
                     lat: parseFloat(items.location.split(',')[0]),
                     lng: parseFloat(items.location.split(',')[1]),
                   }}
-                  icon={IconDustbinGreen}
-                  onClick={() => {
-                    const res = document.getElementById('theInput').value;
-                    if (res.toString().includes(',')) {
-                      calculateRoute(res, items.location.toString());
-                    } else {
-                      calculateRoute(
-                        '21.036891, 105.781659',
-                        items.location.toString(),
-                      );
-                    }
+                  // options={options}
+                  onMouseOver={e => {
+                    console.log(e);
+                    setShowInfor(true);
+                    setIdSelected(items.id);
                   }}
+                  onClick={e => {
+                    console.log(e);
+                    setShowInfor(true);
+                  }}
+                  icon={statusToIcon(items.status)}
                 />
+                {idSelected === items.id && (
+                  <InfoWindow
+                    position={{
+                      lat: parseFloat(items.location.split(',')[0]),
+                      lng: parseFloat(items.location.split(',')[1]),
+                    }}
+                    zIndex={1000}
+                    onCloseClick={() => {
+                      setShowInfor(false);
+                    }}
+                  >
+                    <div style={{ width: '200px' }}>
+                      <div>Thùng rác: {items.name}</div>
+                      <div>Tọa độ: {items.location}</div>
+                      <div style={{ color: statusToColor(items.status) }}>
+                        Trạng thái: {statusToText(items.status)}
+                      </div>
+                      {/* eslint-disable-next-line react/button-has-type */}
+                      <button
+                        style={{
+                          height: '32px',
+                          width: '80px',
+                          borderRadius: '12px',
+                        }}
+                        onClick={() => {
+                          calculateRoute(
+                            '21.036891, 105.781659',
+                            '21.036891, 105.781659',
+                          );
+                        }}
+                      >
+                        Chỉ đường
+                      </button>
+                    </div>
+                  </InfoWindow>
+                )}
               </>
             ))}
-
             {directionResponse && (
               <DirectionsRenderer directions={directionResponse} />
             )}
@@ -215,7 +331,7 @@ const HomePage = () => {
       >
         <Row>
           <Col span={8}>
-            <div>Product</div>
+            <div />
           </Col>
           <Col span={8}>
             <div>Use Cases</div>

@@ -27,7 +27,7 @@ const DashBoard = () => {
   const [listTruck, setListTruck] = useState([]);
 
   // const getCoordinatesAA = id => {
-  //   for(let i = 0; i < listRecycleBin.length; i++) {
+  //   for (let i = 0; i < listRecycleBin.length; i++) {
   //     if (listRecycleBin[i].recycleBinID === id) {
   //       return listRecycleBin[i].location.toString();
   //     }
@@ -43,8 +43,8 @@ const DashBoard = () => {
   //       const arr = item.recycleBinIDList.split(';');
   //       // Danh sách thùng rác đã được sắp xếp theo thứ tự, đường đi A -> B, B -> C
   //       for (let i = 0; i < arr.length - 2; i++) {
-  //         // const cor1 = getCoordinatesAA(arr[i]);
-  //         // const cor2 = getCoordinatesAA(arr[i + 1]);
+  //         const cor1 = getCoordinatesAA(arr[i]);
+  //         const cor2 = getCoordinatesAA(arr[i + 1]);
   //         // eslint-disable-next-line no-await-in-loop
   //         const results = await directonService.route({
   //           origin: {
@@ -58,7 +58,7 @@ const DashBoard = () => {
   //           // eslint-disable-next-line no-undef
   //           travelMode: google.maps.TravelMode.DRIVING,
   //         });
-  //         setDirectionsResponse(directionResponse.concat(results));
+  //         setDirectionsResponse([...directionResponse, results]);
   //       }
   //     }
   //   });

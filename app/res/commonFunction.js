@@ -232,3 +232,47 @@ export const getTimeOption = option => {
       };
   }
 };
+
+export const statusToColor = idStatus => {
+  let color = '';
+  switch (idStatus) {
+    case '1':
+      color = '#00FF00';
+      break;
+    case '2':
+      color = '#FFFF00';
+      break;
+    case '3':
+      color = '#FF0000';
+      break;
+    case '4':
+      color = '#8B8B7A';
+      break;
+    default:
+      color = '#8B8B7A';
+      break;
+  }
+  return color;
+};
+
+export const statusToText = idStatus => {
+  let str = '';
+  switch (idStatus) {
+    case '1':
+      str = 'Chưa đầy';
+      break;
+    case '2':
+      str = 'Gần đầy';
+      break;
+    case '3':
+      str = 'Đã đầy';
+      break;
+    case '4':
+      str = 'Bảo trì';
+      break;
+    default:
+      str = 'Không xác định';
+      break;
+  }
+  return str;
+};

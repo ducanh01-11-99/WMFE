@@ -64,7 +64,6 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       title: 'Mã người dùng',
       dataIndex: 'userID',
       key: 'userID',
-      width: '400px',
     },
     {
       title: 'Tên người dùng',
@@ -94,7 +93,6 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'status',
-      width: '400px',
       render: (text, record) => (
         <TableFunction
           type="normal"

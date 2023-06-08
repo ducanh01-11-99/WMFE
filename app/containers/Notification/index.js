@@ -66,7 +66,6 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       title: 'Mã Thông báo',
       dataIndex: 'notificationID',
       key: 'notificationID',
-      width: '400px',
     },
     {
       title: 'Mã Thùng rác',
@@ -81,7 +80,7 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'notificationType',
-      width: '400px',
+      width: '150px',
       render: (text, record) => (
         <TableFunction
           type="normal"

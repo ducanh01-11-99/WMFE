@@ -5,10 +5,13 @@ import { Layout } from 'antd';
 import PropTypes from 'prop-types';
 import Sidebar from '../../res/components/Sidebar';
 import { COOKIES, PATH_LOGIN, STORAGE } from '../../utils/constants';
-import iconMenuPartner from '../../images/menuPartner.svg';
-import iconMenuProfile from '../../images/menuProfile.svg';
 import iconMenuDashBoard from '../../images/menuDashboard.svg';
 import iconMenu from '../../images/iconMenu.svg';
+import iconTruck from '../../images/icon/dustbin/delivery-truck-4439.svg';
+import iconParking from '../../images/icon/dustbin/parking-1645.svg';
+import iconRecyle from '../../images/icon/dustbin/trashCan.svg';
+import iconNotification from '../../images/icon/dustbin/notification.svg';
+import iconUser from '../../images/icon/dustbin/user.svg';
 import Header from '../../res/components/Header';
 import { getMsgClient } from '../../res/commonFunction';
 const { Content } = Layout;
@@ -30,34 +33,34 @@ const LayoutLogged = ({
       // garage
       key: '1',
       path: '/garage',
-      icon: iconMenuDashBoard,
+      icon: iconParking,
       label: 'Quản lý Bãi đỗ xe',
     },
     // garbageTruck
     {
       key: '2',
       path: '/garbageTruck',
-      icon: iconMenuPartner,
+      icon: iconTruck,
       label: 'Quản lý xe rác',
     },
     // notification
     {
       key: '3',
       path: '/notification',
-      icon: iconMenuProfile,
+      icon: iconNotification,
       label: 'Quản lý thông báo',
     },
     // recycleBin
     {
       key: '4',
       path: '/RecycleBin',
-      icon: iconMenuProfile,
+      icon: iconRecyle,
       label: 'Quản lý Thùng rác',
     },
     {
       key: '5',
       path: '/User',
-      icon: iconMenuProfile,
+      icon: iconUser,
       label: 'Quản lý Tài khoản',
     },
   ];

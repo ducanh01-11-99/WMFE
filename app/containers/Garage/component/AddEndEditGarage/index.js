@@ -9,7 +9,6 @@ import { useInjectSaga } from '../../../../utils/injectSaga';
 import * as actions from '../../actions';
 import CustomModal from '../../../../res/components/CustomModal';
 import FloatingLabel from '../../../../res/components/FloatingLabel/Input';
-// import { RadioGroup } from '../../../../res/components/CopyPageSignModal/styled';
 import reducer from '../../reducer';
 import saga from '../../saga';
 import { REDUX_KEY } from '../../../../utils/constants';
@@ -82,10 +81,13 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
       }}
     >
       <FormCustom form={form}>
-        <Form.Item name="garageID">
-          <FloatingLabel disabled label="Tên Bãi đỗ xe" isRequired />
+        <Form.Item name="name">
+          <FloatingLabel label="Tên Bãi đỗ xe" isRequired />
         </Form.Item>
         {/* <div>Vị trí</div> */}
+        <Row style={{ marginBottom: '10px' }}>
+          <div>Vị trí</div>
+        </Row>
         <Row gutter={18}>
           <Col span={12}>
             <Form.Item name="lon">

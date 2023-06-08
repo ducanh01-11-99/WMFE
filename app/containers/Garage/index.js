@@ -69,12 +69,17 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       title: 'Mã Bãi đỗ xe',
       dataIndex: 'garageID',
       key: 'garageID',
-      width: '400px',
     },
     {
-      title: 'Tọa độ',
+      title: 'Tên Bãi đỗ xe',
+      dataIndex: 'garageID',
+      key: 'garageID',
+    },
+    {
+      title: 'Vị trí',
       dataIndex: 'code',
       key: 'code',
+      width: '150px',
       render: (text, record) => (
         <BoldItaly
           name1={record.location.toString().split(',')[0]}
@@ -85,7 +90,7 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'garageID',
-      width: '400px',
+      width: '150px',
       render: (text, record) => (
         <TableFunction
           type="normal"

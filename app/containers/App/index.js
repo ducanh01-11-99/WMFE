@@ -47,42 +47,42 @@ export default function App() {
             path="/garage"
             component={Garage}
             showSearch
-            placeholderSearch="Tim kiem"
+            placeholderSearch="Tìm kiếm"
           />
           <LayoutLogged
             exact
             path="/garbageTruck"
             component={GarbageTruck}
             showSearch
-            placeholderSearch="Tim kiem"
+            placeholderSearch="Tìm kiếm"
           />
           <LayoutLogged
             exact
             path="/RecycleBin"
             component={RecycleBin}
             showSearch
-            placeholderSearch="Tim kiem"
+            placeholderSearch="Tìm kiếm"
           />
           <LayoutLogged
             exact
             path="/notification"
             component={Notification}
             showSearch
-            placeholderSearch="Tim kiem"
+            placeholderSearch="Tìm kiếm"
           />
           <LayoutLogged
             exact
             path="/user"
             component={User}
             showSearch
-            placeholderSearch="Tim kiem"
+            placeholderSearch="Tìm kiếm"
           />
           <LayoutLogged
             exact
             path="/dashboard"
             component={Dashboard}
-            showSearch
-            placeholderSearch="Tim kiem"
+            // showSearch
+            // placeholderSearch="Tìm kiếm"
           />
           <Route path="" render={() => <ErrorPage code="404" />} />
         </Switch>

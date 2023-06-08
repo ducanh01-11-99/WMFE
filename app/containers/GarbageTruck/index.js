@@ -89,7 +89,7 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'status',
-      width: '400px',
+      width: '150px',
       render: (text, record) => (
         <TableFunction
           type="normal"

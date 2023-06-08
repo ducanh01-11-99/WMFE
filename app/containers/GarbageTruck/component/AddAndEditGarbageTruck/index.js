@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Radio } from 'antd';
 import { useDispatch } from 'react-redux';
@@ -14,6 +14,7 @@ import reducer from '../../reducer';
 import saga from '../../saga';
 import { REDUX_KEY } from '../../../../utils/constants';
 import Notice from '../../../../res/components/Notice';
+import SelectFloat from '../../../../res/components/FloatingLabel/SelectFloat';
 
 const key = REDUX_KEY.garage;
 const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
@@ -67,6 +68,15 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
     refreshT();
     onClose();
   };
+  const fakeData = [
+    { label: 'TR1', value: 1 },
+    { label: 'TR2', value: 2 },
+    { label: 'TR3', value: 3 },
+    { label: 'TR4', value: 4 },
+  ];
+
+  // eslint-disable-next-line no-unused-vars
+  const [selectedID, setSelectedID] = useState(1);
 
   return (
     <CustomModal
@@ -95,6 +105,19 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
           <Col span={12}>
             <Form.Item name="lat">
               <FloatingLabel label="Vĩ độ" isRequired />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Form.Item>
+              <SelectFloat
+                label="Chọn bãi xe"
+                dataSelect={fakeData}
+                onChangeSelect={value => {
+                  setSelectedID(value);
+                }}
+              />
             </Form.Item>
           </Col>
         </Row>

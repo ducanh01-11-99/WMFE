@@ -26,6 +26,8 @@ import IconDustbinYellow from '../../images/icon/dustbin/dustbinorange.svg';
 import IconDustbinGray from '../../images/icon/dustbin/dustbinblue.svg';
 import Avatar from '../../images/avatarDefault.svg';
 
+import { statusToColor, statusToText } from '../../res/commonFunction';
+
 import ListInfor from './component/ListInfo';
 import InfoDiv from './component/InforDiv';
 import Options from './component/Options';
@@ -142,28 +144,6 @@ const HomePage = () => {
     });
   };
 
-  const statusToText = idStatus => {
-    let str = '';
-    switch (idStatus) {
-      case '1':
-        str = 'Chưa đầy';
-        break;
-      case '2':
-        str = 'Gần đầy';
-        break;
-      case '3':
-        str = 'Đã đầy';
-        break;
-      case '4':
-        str = 'Bảo trì';
-        break;
-      default:
-        str = 'Không xác định';
-        break;
-    }
-    return str;
-  };
-
   const statusToIcon = idStatus => {
     let iCon = null;
     switch (idStatus) {
@@ -184,27 +164,6 @@ const HomePage = () => {
         break;
     }
     return iCon;
-  };
-  const statusToColor = idStatus => {
-    let color = '';
-    switch (idStatus) {
-      case '1':
-        color = '#00FF00';
-        break;
-      case '2':
-        color = '#FFFF00';
-        break;
-      case '3':
-        color = '#FF0000';
-        break;
-      case '4':
-        color = '#8B8B7A';
-        break;
-      default:
-        color = '#8B8B7A';
-        break;
-    }
-    return color;
   };
 
   const [idSelected, setIdSelected] = useState(0);

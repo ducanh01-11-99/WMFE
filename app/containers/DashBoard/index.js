@@ -15,6 +15,12 @@ const center = {
   lng: 105.781659,
 };
 
+const fakeData = [
+  { lat: 21.036891, lng: 105.781659 },
+  { lat: 21.031891, lng: 105.784659 },
+  { lat: 21.016891, lng: 105.741659 },
+];
+
 const DashBoard = () => {
   // eslint-disable-next-line no-unused-vars
   const [directionResponse, setDirectionsResponse] = useState([]);
@@ -64,6 +70,28 @@ const DashBoard = () => {
   //   });
   // };
 
+  const calculateRoute = async () => {
+    // eslint-disable-next-line no-undef
+    const directonService = new google.maps.DirectionsService();
+    for (let i = 0; i < fakeData.length - 2; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      const results = await directonService.route({
+        origin: {
+          lat: parseFloat(fakeData[i].lat),
+          lng: parseFloat(fakeData[i].lng),
+        },
+        destination: {
+          lat: parseFloat(fakeData[i + 1].lat),
+          lng: parseFloat(fakeData[i + 1].lng),
+        },
+        // eslint-disable-next-line no-undef
+        travelMode: google.maps.TravelMode.DRIVING,
+      });
+      // setDirectionsResponse([...directionResponse, results]);
+      setDirectionsResponse(results);
+    }
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyBhP-QUDjRJcOHhu5dzxSmXo3LR3nuxkAo',
@@ -89,13 +117,14 @@ const DashBoard = () => {
   };
   useEffect(() => {
     if (listTruck.length > 0 && listRecycleBin.length > 0) {
-      // calculateRoute();
+      // todo
     }
   }, [listRecycleBin, listTruck]);
 
   // 30s load api 1 lan
   setTimeout(() => {
     loadData();
+    calculateRoute();
   }, 10000);
 
   const onLoad = React.useCallback(function callback(map) {
@@ -112,10 +141,10 @@ const DashBoard = () => {
   return (
     <Content>
       <ContentWrapper showAdvanceSearch={false}>
-        <div>
-          So xe: {listTruck.length}
-          So thung rac: {listRecycleBin.length}
-        </div>
+        <div>Số xe di chuyển: {listTruck.length}</div>
+        <div>Số xe đang trống: {listTruck.length}</div>
+        <div>Số thùng rác sắp đầy: {listRecycleBin.length}</div>
+        <div>Số thùng rác đã đầy: {listRecycleBin.length}</div>
         {isLoaded && (
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '100%' }}
@@ -168,13 +197,9 @@ const DashBoard = () => {
               </>
               // eslint-disable-next-line react/jsx-no-comment-textnodes
             ))}
-            // tao danh sach tat ca ket noi xong cho vao map item
-            {directionResponse &&
-              // eslint-disable-next-line array-callback-return
-              directionResponse.map(item => {
-                // eslint-disable-next-line no-unused-expressions
-                <DirectionsRenderer directions={item} />;
-              })}
+            {directionResponse && (
+              <DirectionsRenderer directions={directionResponse} />
+            )}
           </GoogleMap>
         )}
       </ContentWrapper>

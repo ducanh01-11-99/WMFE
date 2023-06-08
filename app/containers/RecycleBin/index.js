@@ -64,10 +64,9 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: 'Mã thùng rác',
+      title: 'Tên thùng rác',
       dataIndex: 'recycleBinID',
       key: 'recycleBinID',
-      width: '400px',
     },
     {
       title: 'Tọa độ',
@@ -85,7 +84,6 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       title: 'Số ngày chưa xử lý',
       dataIndex: 'daySinceLastCollection',
       key: 'recycleBinID',
-      width: '400px',
     },
     {
       title: 'Lượng người dùng',
@@ -95,7 +93,7 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     {
       title: 'Trạng thái',
       dataIndex: 'recyclebinStatus',
-      width: '400px',
+      width: '150px',
       render: (text, record) => (
         <TableFunction
           type="normal"
@@ -143,7 +141,7 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
         <Table
           columns={TABLE_ACCOUNT}
           data={listPartner}
-          minWidth={1100}
+          // minWidth={1100}
           isLoading={false}
           disableClickRowExpand
           onClickRow={onClickRow}

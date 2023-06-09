@@ -10,6 +10,7 @@ import {
   InfoWindow,
 } from '@react-google-maps/api';
 
+import axios from 'axios';
 import {
   ButtonLogin,
   DivIconSearch,
@@ -82,16 +83,16 @@ const HomePage = () => {
 
   // lấy danh sách thùng rác
   const loadData = async () => {
-    // const res = await axios.get('https://localhost:7145/api/v1/RecycleBin');
-    // console.log(res);
-    // setListRecycleBin(res.data);
+    const res = await axios.get('https://localhost:7145/api/v1/RecycleBin');
+    console.log(res);
+    setListRecycleBin(res.data);
     // fake data
-    setListRecycleBin([
-      { name: 'TR1', location: '21.036891, 105.781659', status: '1', id: 1 },
-      { name: 'TR2', location: '21.046881, 105.781459', status: '2', id: 2 },
-      { name: 'TR3', location: '21.056871, 105.781559', status: '3', id: 3 },
-      { name: 'TR4', location: '21.066861, 105.781359', status: '4', id: 4 },
-    ]);
+    // setListRecycleBin([
+    //   { name: 'TR1', location: '21.036891, 105.781659', status: '1', id: 1 },
+    //   { name: 'TR2', location: '21.046881, 105.781459', status: '2', id: 2 },
+    //   { name: 'TR3', location: '21.056871, 105.781559', status: '3', id: 3 },
+    //   { name: 'TR4', location: '21.066861, 105.781359', status: '4', id: 4 },
+    // ]);
   };
 
   useEffect(() => {
@@ -147,16 +148,16 @@ const HomePage = () => {
   const statusToIcon = idStatus => {
     let iCon = null;
     switch (idStatus) {
-      case '1':
+      case 0:
         iCon = IconDustbinGreen;
         break;
-      case '2':
+      case 2:
         iCon = IconDustbinYellow;
         break;
-      case '3':
+      case 1:
         iCon = IconDustbinRed;
         break;
-      case '4':
+      case 3:
         iCon = IconDustbinGray;
         break;
       default:
@@ -230,15 +231,15 @@ const HomePage = () => {
                   onMouseOver={e => {
                     console.log(e);
                     setShowInfor(true);
-                    setIdSelected(items.id);
+                    setIdSelected(items.recycleBinID);
                   }}
                   onClick={e => {
                     console.log(e);
                     setShowInfor(true);
                   }}
-                  icon={statusToIcon(items.status)}
+                  icon={statusToIcon(items.recyclebinStatus)}
                 />
-                {idSelected === items.id && (
+                {idSelected === items.recycleBinID && (
                   <InfoWindow
                     position={{
                       lat: parseFloat(items.location.split(',')[0]),
@@ -252,8 +253,10 @@ const HomePage = () => {
                     <div style={{ width: '200px' }}>
                       <div>Thùng rác: {items.name}</div>
                       <div>Tọa độ: {items.location}</div>
-                      <div style={{ color: statusToColor(items.status) }}>
-                        Trạng thái: {statusToText(items.status)}
+                      <div
+                        style={{ color: statusToColor(items.recyclebinStatus) }}
+                      >
+                        Trạng thái: {statusToText(items.recyclebinStatus)}
                       </div>
                       {/* eslint-disable-next-line react/button-has-type */}
                       <button
@@ -265,7 +268,7 @@ const HomePage = () => {
                         onClick={() => {
                           calculateRoute(
                             '21.036891, 105.781659',
-                            '21.036891, 105.781659',
+                            items.location,
                           );
                         }}
                       >

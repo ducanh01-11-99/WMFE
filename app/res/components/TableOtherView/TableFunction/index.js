@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StatusContainer, StatusLabel } from './styles';
 import ButtonFunctionList from '../ButtonFunctionList';
+import {
+  statusToColor,
+  statusToText,
+  statusToTextTruck,
+} from '../../../commonFunction';
 
 const TableFunction = ({
   text,
@@ -22,6 +27,30 @@ const TableFunction = ({
     <StatusContainer>
       {type === 'normal' && (
         <StatusLabel active={record.isActive}>{text}</StatusLabel>
+      )}
+      {type === 'recycle' && (
+        <StatusLabel
+          style={{ color: statusToColor(text) }}
+          active={record.isActive}
+        >
+          {statusToText(text)}
+        </StatusLabel>
+      )}
+      {type === 'truck' && (
+        <StatusLabel
+          style={{ color: statusToColor(text) }}
+          active={record.isActive}
+        >
+          {statusToTextTruck(text)}
+        </StatusLabel>
+      )}
+      {type === 'noti' && (
+        <StatusLabel
+          style={{ color: text === 0 ? '#FF0000' : '#00FF00' }}
+          active={record.isActive}
+        >
+          {text === 0 ? 'Chưa xử lý' : 'Đã xử lý'}
+        </StatusLabel>
       )}
       <div className="listButton">
         <ButtonFunctionList

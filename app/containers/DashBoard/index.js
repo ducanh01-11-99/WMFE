@@ -2,14 +2,30 @@ import React, { useEffect, useState } from 'react';
 import {
   DirectionsRenderer,
   GoogleMap,
+  InfoWindow,
   Marker,
   useJsApiLoader,
 } from '@react-google-maps/api';
 import axios from 'axios';
 import { Content, ContentWrapper } from '../../res/commonStyles';
 import IconDustbinGreen from '../../images/icon/dustbin/dustbingreen.svg';
-import TruckIcon from '../../images/icon/dustbin/truck.svg';
 import Parking from '../../images/icon/dustbin/parking.svg';
+import { statusToColor, statusToText } from '../../res/commonFunction';
+import IconDustbinYellow from '../../images/icon/dustbin/dustbinorange.svg';
+import IconDustbinRed from '../../images/icon/dustbin/dustbinred.svg';
+import IconDustbinGray from '../../images/icon/dustbin/dustbinblue.svg';
+
+import IconGreenTruck from '../../images/icon/truck/greenTRuck.svg';
+// eslint-disable-next-line import/no-unresolved
+import IconYellowTruck from '../../images/icon/truck/YellowTruck.svg';
+import IconRedTruck from '../../images/icon/truck/redTruck.svg';
+import IconGrayTruck from '../../images/icon/truck/grayTruck.svg';
+
+// import IconGreenGara from '../../images/icon/garage/greenGarage.svg';
+// import IconYellowGara from '../../images/icon/garage/yellowGarage.svg';
+// import IconRedGara from '../../images/icon/garage/redGarage.svg';
+// import IconGrayGara from '../../images/icon/garage/grayGarage.svg';
+
 const center = {
   lat: 21.036891,
   lng: 105.781659,
@@ -31,6 +47,15 @@ const DashBoard = () => {
   const [listRecycleBin, setListRecycleBin] = useState([]);
   const [listGara, setListGara] = useState([]);
   const [listTruck, setListTruck] = useState([]);
+
+  const [activeBin, setNumberActiveBin] = useState(0);
+  const [noActiveBin, setNumberNoActiveBin] = useState(0);
+
+  const [activeTruck, setNumberActiveTruck] = useState(0);
+  const [noActiveTruck, setNumberNoActiveTruck] = useState(0);
+
+  // eslint-disable-next-line no-unused-vars
+  const [showInfo, setShowInfor] = useState(false);
 
   // const getCoordinatesAA = id => {
   //   for (let i = 0; i < listRecycleBin.length; i++) {
@@ -87,10 +112,14 @@ const DashBoard = () => {
         // eslint-disable-next-line no-undef
         travelMode: google.maps.TravelMode.DRIVING,
       });
-      // setDirectionsResponse([...directionResponse, results]);
-      setDirectionsResponse(results);
+      setDirectionsResponse([...directionResponse, results]);
+      // setDirectionsResponse(results);
     }
   };
+
+  useEffect(() => {
+    console.log(directionResponse);
+  }, [directionResponse]);
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -116,8 +145,32 @@ const DashBoard = () => {
     setListTruck(listTruckA.data);
   };
   useEffect(() => {
+    let a = 0;
+    let b = 0;
+    let c = 0;
+    let d = 0;
     if (listTruck.length > 0 && listRecycleBin.length > 0) {
-      // todo
+      // eslint-disable-next-line array-callback-return
+      listTruck.map(item => {
+        if (item.status === 0) {
+          a += 1;
+        } else {
+          b += 1;
+        }
+      });
+
+      // eslint-disable-next-line array-callback-return
+      listRecycleBin.map(item => {
+        if (item.recyclebinStatus === 0) {
+          c += 1;
+        } else {
+          d += 1;
+        }
+      });
+      setNumberActiveBin(c);
+      setNumberActiveTruck(a);
+      setNumberNoActiveTruck(b);
+      setNumberNoActiveBin(d);
     }
   }, [listRecycleBin, listTruck]);
 
@@ -125,7 +178,7 @@ const DashBoard = () => {
   setTimeout(() => {
     loadData();
     calculateRoute();
-  }, 10000);
+  }, 30000);
 
   const onLoad = React.useCallback(function callback(map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
@@ -138,13 +191,59 @@ const DashBoard = () => {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
+
+  const statusToIcon = idStatus => {
+    let iCon = null;
+    switch (idStatus) {
+      case 0:
+        iCon = IconDustbinGreen;
+        break;
+      case 2:
+        iCon = IconDustbinYellow;
+        break;
+      case 1:
+        iCon = IconDustbinRed;
+        break;
+      case 3:
+        iCon = IconDustbinGray;
+        break;
+      default:
+        iCon = IconDustbinGray;
+        break;
+    }
+    return iCon;
+  };
+
+  const statusToIconTruck = idStatus => {
+    let iCon = null;
+    switch (idStatus) {
+      case 0:
+        iCon = IconGreenTruck;
+        break;
+      case 2:
+        iCon = IconGrayTruck;
+        break;
+      case 1:
+        iCon = IconRedTruck;
+        break;
+      case 3:
+        iCon = IconYellowTruck;
+        break;
+      default:
+        iCon = IconGrayTruck;
+        break;
+    }
+    return iCon;
+  };
+
+  const [idSelected, setIdSelected] = useState(0);
   return (
     <Content>
       <ContentWrapper showAdvanceSearch={false}>
-        <div>Số xe di chuyển: {listTruck.length}</div>
-        <div>Số xe đang trống: {listTruck.length}</div>
-        <div>Số thùng rác sắp đầy: {listRecycleBin.length}</div>
-        <div>Số thùng rác đã đầy: {listRecycleBin.length}</div>
+        <div>Số xe di chuyển: {noActiveTruck}</div>
+        <div>Số xe đang trống: {activeTruck}</div>
+        <div>Số thùng rác trống: {activeBin}</div>
+        <div>Số thùng rác đã đầy: {noActiveBin}</div>
         {isLoaded && (
           <GoogleMap
             mapContainerStyle={{ width: '100%', height: '100%' }}
@@ -156,30 +255,107 @@ const DashBoard = () => {
             {/* eslint-disable-next-line no-shadow */}
             {listRecycleBin.map(items => (
               <>
+                {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
                 <Marker
-                  title={`Thùng rác${items.recycleBinID}.Tình trạng${
-                    items.recyclebinStatus
-                  }`}
                   position={{
                     lat: parseFloat(items.location.split(',')[0]),
                     lng: parseFloat(items.location.split(',')[1]),
                   }}
-                  icon={IconDustbinGreen}
+                  onMouseOver={e => {
+                    // setShowInfor(true);
+                    console.log(e);
+                    setIdSelected(items.recycleBinID);
+                  }}
+                  onClick={e => {
+                    console.log(e);
+                    // setShowInfor(true);
+                  }}
+                  icon={statusToIcon(items.recyclebinStatus)}
                 />
+                {idSelected === items.recycleBinID && (
+                  <InfoWindow
+                    position={{
+                      lat: parseFloat(items.location.split(',')[0]),
+                      lng: parseFloat(items.location.split(',')[1]),
+                    }}
+                    zIndex={1000}
+                    onCloseClick={() => {
+                      // setShowInfor(false);
+                    }}
+                  >
+                    <div style={{ width: '200px' }}>
+                      <div>Thùng rác: {items.name}</div>
+                      <div>Tọa độ: {items.location}</div>
+                      <div
+                        style={{ color: statusToColor(items.recyclebinStatus) }}
+                      >
+                        Trạng thái: {statusToText(items.recyclebinStatus)}
+                      </div>
+                      {/* eslint-disable-next-line react/button-has-type */}
+                      <button
+                        style={{
+                          height: '32px',
+                          width: '80px',
+                          borderRadius: '12px',
+                        }}
+                        onClick={() => {
+                          calculateRoute(
+                            '21.036891, 105.781659',
+                            items.location,
+                          );
+                        }}
+                      >
+                        Chỉ đường
+                      </button>
+                    </div>
+                  </InfoWindow>
+                )}
               </>
             ))}
             {listTruck.map(items => (
               <>
+                {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
                 <Marker
-                  title={`Xe ${items.recycleBinID}.Tình trạng${
-                    items.recyclebinStatus
-                  }`}
                   position={{
                     lat: parseFloat(items.location.split(',')[0]),
                     lng: parseFloat(items.location.split(',')[1]),
                   }}
-                  icon={TruckIcon}
+                  onMouseOver={e => {
+                    console.log(e);
+                    setShowInfor(true);
+                    setIdSelected(items.garbageTruckID);
+                  }}
+                  onClick={e => {
+                    console.log(e);
+                    setShowInfor(true);
+                  }}
+                  icon={statusToIconTruck(items.status)}
                 />
+                {idSelected === items.garbageTruckID && (
+                  <InfoWindow
+                    position={{
+                      lat: parseFloat(items.location.split(',')[0]),
+                      lng: parseFloat(items.location.split(',')[1]),
+                    }}
+                    zIndex={1000}
+                    onCloseClick={() => {
+                      setShowInfor(false);
+                    }}
+                  >
+                    <div style={{ width: '200px' }}>
+                      <div>Tên xe: {items.name}</div>
+                      <div>Tọa độ: {items.location}</div>
+                      <div
+                        style={{
+                          color: items.status === 0 ? '#00FF00' : '#FFFF00',
+                        }}
+                      >
+                        Trạng thái:{' '}
+                        {items.status === 0 ? 'Đang chờ' : 'Đang đi đổ rác'}
+                      </div>
+                    </div>
+                  </InfoWindow>
+                )}
               </>
             ))}
             {listGara.map(items => (
@@ -197,9 +373,10 @@ const DashBoard = () => {
               </>
               // eslint-disable-next-line react/jsx-no-comment-textnodes
             ))}
-            {directionResponse && (
-              <DirectionsRenderer directions={directionResponse} />
-            )}
+            {directionResponse &&
+              directionResponse.map(item => (
+                <DirectionsRenderer directions={item} />
+              ))}
           </GoogleMap>
         )}
       </ContentWrapper>

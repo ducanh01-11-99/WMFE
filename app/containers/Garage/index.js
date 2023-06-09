@@ -72,8 +72,9 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     },
     {
       title: 'Tên Bãi đỗ xe',
-      dataIndex: 'garageID',
-      key: 'garageID',
+      dataIndex: 'garageName',
+      key: 'garageName',
+      render: text => <BoldItaly name1={text || 'Chưa xác định'} />,
     },
     {
       title: 'Vị trí',
@@ -89,7 +90,7 @@ const Garage = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'garageID',
+      dataIndex: 'garageIDDD',
       width: '150px',
       render: (text, record) => (
         <TableFunction

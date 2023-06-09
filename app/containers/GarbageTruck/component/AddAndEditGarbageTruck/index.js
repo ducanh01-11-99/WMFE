@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Row, Col, Radio } from 'antd';
+import { Form, Row, Col } from 'antd';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { FormCustom } from './style';
@@ -9,7 +9,7 @@ import { useInjectSaga } from '../../../../utils/injectSaga';
 import * as actions from '../../actions';
 import CustomModal from '../../../../res/components/CustomModal';
 import FloatingLabel from '../../../../res/components/FloatingLabel/Input';
-import { RadioGroup } from '../../../../res/components/CopyPageSignModal/styled';
+// import { RadioGroup } from '../../../../res/components/CopyPageSignModal/styled';
 import reducer from '../../reducer';
 import saga from '../../saga';
 import { REDUX_KEY } from '../../../../utils/constants';
@@ -18,15 +18,37 @@ import SelectFloat from '../../../../res/components/FloatingLabel/SelectFloat';
 
 const key = REDUX_KEY.garage;
 const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
-  console.log(data);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+
+  const [dataGarage, setDataGarage] = useState([]);
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
   const clearForm = () => {
     form.resetFields();
   };
+
+  const setData = async () => {
+    const res = await axios.get(`https://localhost:7145/api/v1/Garbagetruck`);
+    if (res) {
+      const options = [];
+      // eslint-disable-next-line array-callback-return
+      res.data.map(item => {
+        options.push({
+          value: item.garbageTruckID,
+          lable: item.garbageTruckName,
+        });
+      });
+      setDataGarage(options);
+    }
+  };
+
+  useEffect(() => {
+    if (visible) {
+      setData();
+    }
+  }, [visible]);
 
   useEffect(() => {
     if (JSON.stringify(data) !== '{}') {
@@ -68,19 +90,12 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
     refreshT();
     onClose();
   };
-  const fakeData = [
-    { label: 'TR1', value: 1 },
-    { label: 'TR2', value: 2 },
-    { label: 'TR3', value: 3 },
-    { label: 'TR4', value: 4 },
-  ];
-
   // eslint-disable-next-line no-unused-vars
   const [selectedID, setSelectedID] = useState(1);
 
   return (
     <CustomModal
-      title={JSON.stringify(data) === '{}' ? 'Thêm xe' : 'Sửa thông tin xe'}
+      title={JSON.stringify(data) === '{}' ? 'Thêm mới xe' : 'Sửa thông tin xe'}
       width={850}
       visible={visible}
       onClickCancel={() => {
@@ -93,9 +108,12 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
     >
       <FormCustom form={form}>
         <Form.Item name="garbageTruckID">
-          <FloatingLabel label="Tên Bãi đỗ xe" isRequired disabled />
+          <FloatingLabel label="Tên Xe" isRequired />
         </Form.Item>
         {/* <div>Vị trí</div> */}
+        <Row>
+          <div style={{ marginBottom: '10px' }}>Vị trí</div>
+        </Row>
         <Row gutter={18}>
           <Col span={12}>
             <Form.Item name="lon">
@@ -113,7 +131,8 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
             <Form.Item>
               <SelectFloat
                 label="Chọn bãi xe"
-                dataSelect={fakeData}
+                dataSelect={dataGarage}
+                valueSelect={data.garageID}
                 onChangeSelect={value => {
                   setSelectedID(value);
                 }}
@@ -121,19 +140,19 @@ const AddAndEditGarage = ({ data, visible, onClose, refreshT }) => {
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={18}>
-          <Col span={12}>
-            <Form.Item name="garageID">
-              <FloatingLabel label="Mã bãi đỗ xe" isRequired />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item name="status">
-          <RadioGroup defaultValue={0}>
-            <Radio value={1}>Admin</Radio>
-            <Radio value={0}>Quản lý</Radio>
-          </RadioGroup>
-        </Form.Item>
+        {/* <Row gutter={18}> */}
+        {/*  <Col span={12}> */}
+        {/*    <Form.Item name="garageID"> */}
+        {/*      <FloatingLabel label="Mã bãi đỗ xe" isRequired /> */}
+        {/*    </Form.Item> */}
+        {/*  </Col> */}
+        {/* </Row> */}
+        {/* <Form.Item name="status"> */}
+        {/*  <RadioGroup defaultValue={0}> */}
+        {/*    <Radio value={1}>Admin</Radio> */}
+        {/*    <Radio value={0}>Quản lý</Radio> */}
+        {/*  </RadioGroup> */}
+        {/* </Form.Item> */}
       </FormCustom>
     </CustomModal>
   );

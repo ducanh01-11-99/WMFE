@@ -53,10 +53,11 @@ export function getDetailGarageSuccess(data) {
   };
 }
 
-export function addGarage(body) {
+export function addGarage(body, callback) {
   return {
     type: ADD_GARAGE,
     body,
+    callback,
   };
 }
 

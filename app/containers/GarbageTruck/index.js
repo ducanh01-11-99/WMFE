@@ -82,9 +82,10 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       ),
     },
     {
-      title: 'Mã gara',
-      dataIndex: 'garageID',
-      key: 'code',
+      title: 'Tên Bãi đỗ xe',
+      dataIndex: 'garbageTruckName',
+      key: 'garbageTruckName',
+      render: text => <BoldItaly name1={text || 'Chưa xác định'} />,
     },
     {
       title: 'Trạng thái',
@@ -92,7 +93,7 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       width: '150px',
       render: (text, record) => (
         <TableFunction
-          type="normal"
+          type="truck"
           text={text}
           record={record}
           titleEdit="Sửa Bãi đỗ xe"

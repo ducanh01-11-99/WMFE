@@ -4,7 +4,7 @@ import * as actions from './actions';
 import { axiosGet, axiosPost } from '../../utils/request';
 
 export function* getListNotification() {
-  const path = '/api/v1/Notification';
+  const path = '/api/v1/Notification/notifyTruck';
   try {
     const res = yield call(axiosGet, path);
     if (res.data) {

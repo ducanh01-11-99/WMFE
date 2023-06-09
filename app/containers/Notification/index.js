@@ -83,7 +83,7 @@ const Notification = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       width: '150px',
       render: (text, record) => (
         <TableFunction
-          type="normal"
+          type="noti"
           text={text}
           record={record}
           // titleEdit="Sửa Bãi đỗ xe"

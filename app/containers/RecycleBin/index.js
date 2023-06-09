@@ -96,7 +96,7 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       width: '150px',
       render: (text, record) => (
         <TableFunction
-          type="normal"
+          type="recycle"
           text={text}
           record={record}
           titleEdit="Sửa Thông tin thùng rác"

@@ -233,42 +233,64 @@ export const getTimeOption = option => {
   }
 };
 
+// chung cho tất cả
 export const statusToColor = idStatus => {
   let color = '';
   switch (idStatus) {
-    case '1':
+    case 0:
       color = '#00FF00';
       break;
-    case '2':
+    case 2:
       color = '#FFFF00';
       break;
-    case '3':
+    case 1:
       color = '#FF0000';
       break;
-    case '4':
+    case 3:
       color = '#8B8B7A';
       break;
     default:
-      color = '#8B8B7A';
+      color = '#00FF00';
       break;
   }
   return color;
 };
 
+// Lấy trạng thái cho thùng rác
 export const statusToText = idStatus => {
   let str = '';
   switch (idStatus) {
-    case '1':
+    case 0:
       str = 'Chưa đầy';
       break;
-    case '2':
-      str = 'Gần đầy';
+    case 2:
+      str = 'Bảo trì';
       break;
-    case '3':
+    case 1:
       str = 'Đã đầy';
       break;
-    case '4':
+    case 3:
+      str = 'Đang đổ rác';
+      break;
+    default:
+      str = 'Không xác định';
+      break;
+  }
+  return str;
+};
+
+// Lấy trạng thái cho xe
+export const statusToTextTruck = idStatus => {
+  let str = '';
+  switch (idStatus) {
+    case 1:
       str = 'Bảo trì';
+      break;
+    case 2:
+      str = 'Đang thu gom';
+      break;
+    case 0:
+      str = 'Đang chờ';
       break;
     default:
       str = 'Không xác định';

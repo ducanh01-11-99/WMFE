@@ -65,15 +65,15 @@ const GarbageTruck = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: 'Mã Xe đổ rác',
-      dataIndex: 'garbageTruckID',
-      key: 'GarbageTruckID',
+      title: 'Tên xe đổ rác',
+      dataIndex: 'garbageTruckName',
+      key: 'garbageTruckName',
       width: '400px',
     },
     {
-      title: 'Tọa độ',
+      title: 'Vị trí',
       dataIndex: 'location',
-      key: 'code',
+      key: 'location',
       render: (text, record) => (
         <BoldItaly
           name1={record.location.toString().split(',')[0]}

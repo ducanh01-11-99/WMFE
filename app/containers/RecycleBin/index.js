@@ -65,11 +65,11 @@ const RecycleBin = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
     },
     {
       title: 'Tên thùng rác',
-      dataIndex: 'recycleBinID',
-      key: 'recycleBinID',
+      dataIndex: 'recycleBinName',
+      key: 'recycleBinName',
     },
     {
-      title: 'Tọa độ',
+      title: 'Vị trí',
       dataIndex: 'location',
       key: 'location',
       render: (text, record) => (

@@ -284,10 +284,10 @@ export const statusToTextTruck = idStatus => {
   let str = '';
   switch (idStatus) {
     case 1:
-      str = 'Bảo trì';
+      str = 'Đang thu gom';
       break;
     case 2:
-      str = 'Đang thu gom';
+      str = 'Bảo trì';
       break;
     case 0:
       str = 'Đang chờ';

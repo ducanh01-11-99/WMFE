@@ -60,11 +60,11 @@ const User = ({ showAdvanceSearch, onCloseAdvanceSearch }) => {
       align: 'center',
       render: (text, record, index) => index + 1,
     },
-    {
-      title: 'Mã người dùng',
-      dataIndex: 'userID',
-      key: 'userID',
-    },
+    // {
+    //   title: 'Mã người dùng',
+    //   dataIndex: 'userID',
+    //   key: 'userID',
+    // },
     {
       title: 'Tên người dùng',
       dataIndex: 'userName',

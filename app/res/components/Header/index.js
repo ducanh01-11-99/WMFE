@@ -67,7 +67,7 @@ const Header = ({
             <Tooltip
               placement="bottomLeft"
               overlayStyle={{ maxWidth: '407px' }}
-              title="DDawng xuat"
+              title="Đăng xuất"
             >
               <IconUser
                 src={defaultAvatar}

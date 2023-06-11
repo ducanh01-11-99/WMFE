@@ -30,16 +30,7 @@ const center = {
   lat: 21.036891,
   lng: 105.781659,
 };
-
-const fakeData = [
-  { lat: 21.036891, lng: 105.781659 },
-  { lat: 21.031891, lng: 105.784659 },
-  { lat: 21.016891, lng: 105.741659 },
-];
-
 const DashBoard = () => {
-  // eslint-disable-next-line no-unused-vars
-  const [directionResponse, setDirectionsResponse] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [distance, setDistance] = useState([]);
   // eslint-disable-next-line no-unused-vars
@@ -54,68 +45,10 @@ const DashBoard = () => {
   const [activeTruck, setNumberActiveTruck] = useState(0);
   const [noActiveTruck, setNumberNoActiveTruck] = useState(0);
 
-  // eslint-disable-next-line no-unused-vars
-  const [showInfo, setShowInfor] = useState(false);
-
-  // const getCoordinatesAA = id => {
-  //   for (let i = 0; i < listRecycleBin.length; i++) {
-  //     if (listRecycleBin[i].recycleBinID === id) {
-  //       return listRecycleBin[i].location.toString();
-  //     }
-  //   }
-  // };
-
-  // const calculateRoute = async () => {
-  //   // eslint-disable-next-line no-undef
-  //   const directonService = new google.maps.DirectionsService();
-  //   listTruck.map(async item => {
-  //     // duyet qua tung xe trong mang danh sach xe
-  //     if (item.recycleBinIDList !== null) {
-  //       const arr = item.recycleBinIDList.split(';');
-  //       // Danh sách thùng rác đã được sắp xếp theo thứ tự, đường đi A -> B, B -> C
-  //       for (let i = 0; i < arr.length - 2; i++) {
-  //         const cor1 = getCoordinatesAA(arr[i]);
-  //         const cor2 = getCoordinatesAA(arr[i + 1]);
-  //         // eslint-disable-next-line no-await-in-loop
-  //         const results = await directonService.route({
-  //           origin: {
-  //             lat: parseFloat(cor1 ? cor1.split(',')[0] : null),
-  //             lng: parseFloat(cor1 ? cor1.split(',')[1] : null),
-  //           },
-  //           destination: {
-  //             lat: parseFloat(cor2 ? cor2.split(',')[0] : null),
-  //             lng: parseFloat(cor2 ? cor2.split(',')[1] : null),
-  //           },
-  //           // eslint-disable-next-line no-undef
-  //           travelMode: google.maps.TravelMode.DRIVING,
-  //         });
-  //         setDirectionsResponse([...directionResponse, results]);
-  //       }
-  //     }
-  //   });
-  // };
-
-  const calculateRoute = async () => {
-    // eslint-disable-next-line no-undef
-    const directonService = new google.maps.DirectionsService();
-    for (let i = 0; i < fakeData.length - 2; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      const results = await directonService.route({
-        origin: {
-          lat: parseFloat(fakeData[i].lat),
-          lng: parseFloat(fakeData[i].lng),
-        },
-        destination: {
-          lat: parseFloat(fakeData[i + 1].lat),
-          lng: parseFloat(fakeData[i + 1].lng),
-        },
-        // eslint-disable-next-line no-undef
-        travelMode: google.maps.TravelMode.DRIVING,
-      });
-      setDirectionsResponse([...directionResponse, results]);
-      // setDirectionsResponse(results);
-    }
-  };
+  const [directionResponse, setDirectionsResponse] = useState();
+  const [directionResponse1, setDirectionsResponse1] = useState();
+  const [directionResponse2, setDirectionsResponse2] = useState();
+  const [directionResponse3, setDirectionsResponse3] = useState();
 
   useEffect(() => {
     console.log(directionResponse);
@@ -123,7 +56,7 @@ const DashBoard = () => {
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyBhP-QUDjRJcOHhu5dzxSmXo3LR3nuxkAo',
+    googleMapsApiKey: 'AIzaSyBMu-Uj56MpFtE9TPmwrsgMCIv6xx44q8o',
   });
 
   useEffect(() => {
@@ -144,6 +77,9 @@ const DashBoard = () => {
     setListRecycleBin(res.data);
     setListTruck(listTruckA.data);
   };
+  // Với mỗi xe có trạng thái đang di chuyển, sẽ có 1 list các thùng rác để thu gom, objectID -> chuyển về mảng location
+
+  // lấy traạng thái của thùng rác và xe
   useEffect(() => {
     let a = 0;
     let b = 0;
@@ -174,8 +110,49 @@ const DashBoard = () => {
     }
   }, [listRecycleBin, listTruck]);
 
+  const getListLocation = listID => {
+    let res = [];
+    if (listID) {
+      // eslint-disable-next-line array-callback-return
+      listID.map(item => {
+        if (item.length > 0) {
+          // eslint-disable-next-line array-callback-return
+          listRecycleBin.map(item2 => {
+            if (item === item2.recycleBinID) {
+              res = [...res, item2.location];
+            }
+          });
+        }
+      });
+    }
+    return res;
+  };
+
+  const [waypoint, setWaypoint] = useState([]);
+
+  // Khi list xe thay doi, update lai danh sach
+  useEffect(() => {
+    // eslint-disable-next-line array-callback-return
+    listTruck.map(item => {
+      if (item.status === 1) {
+        if (item.recycleBinIDList) {
+          // Lay duoc mang toa do
+          console.log(getListLocation(item.recycleBinIDList.split(';')));
+          setWaypoint([
+            ...waypoint,
+            getListLocation(item.recycleBinIDList.split(';')),
+          ]);
+        }
+      }
+    });
+  }, [listTruck]);
+
+  useEffect(() => {
+    calculateRoute();
+  }, []);
+
   // 30s load api 1 lan
-  setTimeout(() => {
+  setInterval(() => {
     loadData();
     calculateRoute();
   }, 30000);
@@ -236,6 +213,89 @@ const DashBoard = () => {
     return iCon;
   };
 
+  const calculateRoute = async () => {
+    // eslint-disable-next-line no-undef
+    const directonService = new google.maps.DirectionsService();
+    const results = await directonService.route({
+      waypoints: [
+        {
+          // eslint-disable-next-line no-undef
+          location: new google.maps.LatLng(21.039824, 105.766436),
+        },
+      ],
+      // vị trí thùng rác cuối cùng
+      origin: {
+        lat: 21.030424,
+        lng: 105.801075,
+      },
+      destination: { lat: 21.030324, lng: 105.787992 },
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    setDirectionsResponse(results);
+
+    // eslint-disable-next-line no-undef
+    const directonService1 = new google.maps.DirectionsService();
+    const results1 = await directonService1.route({
+      waypoints: [
+        {
+          // eslint-disable-next-line no-undef
+          location: new google.maps.LatLng(21.033071, 105.780287),
+        },
+      ],
+      origin: {
+        lat: 21.033071,
+        lng: 105.780287,
+      },
+      destination: { lat: 21.041756, lng: 105.787076 },
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.WALKING,
+    });
+    setDirectionsResponse1(results1);
+
+    // eslint-disable-next-line no-undef
+    const directonService2 = new google.maps.DirectionsService();
+    const results2 = await directonService2.route({
+      waypoints: [
+        {
+          // eslint-disable-next-line no-undef
+          location: new google.maps.LatLng(21.037652, 105.773704),
+        },
+        {
+          // eslint-disable-next-line no-undef
+          location: new google.maps.LatLng(21.034797, 105.7659),
+        },
+      ],
+      origin: {
+        lat: 21.034045,
+        lng: 105.797448,
+      },
+      destination: { lat: 21.036419, lng: 105.779883 },
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.WALKING,
+    });
+    setDirectionsResponse2(results2);
+
+    // eslint-disable-next-line no-undef
+    const directonService3 = new google.maps.DirectionsService();
+    const results3 = await directonService3.route({
+      waypoints: [
+        {
+          // eslint-disable-next-line no-undef
+          location: new google.maps.LatLng(21.034638, 105.772792),
+        },
+      ],
+      origin: {
+        lat: 21.030906,
+        lng: 105.796175,
+      },
+      destination: { lat: 21.041756, lng: 105.760932 },
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.WALKING,
+    });
+    setDirectionsResponse3(results3);
+  };
+
   const [idSelected, setIdSelected] = useState(0);
   return (
     <Content>
@@ -262,13 +322,8 @@ const DashBoard = () => {
                     lng: parseFloat(items.location.split(',')[1]),
                   }}
                   onMouseOver={e => {
-                    // setShowInfor(true);
                     console.log(e);
                     setIdSelected(items.recycleBinID);
-                  }}
-                  onClick={e => {
-                    console.log(e);
-                    // setShowInfor(true);
                   }}
                   icon={statusToIcon(items.recyclebinStatus)}
                 />
@@ -279,9 +334,6 @@ const DashBoard = () => {
                       lng: parseFloat(items.location.split(',')[1]),
                     }}
                     zIndex={1000}
-                    onCloseClick={() => {
-                      // setShowInfor(false);
-                    }}
                   >
                     <div style={{ width: '200px' }}>
                       <div>Thùng rác: {items.name}</div>
@@ -291,22 +343,6 @@ const DashBoard = () => {
                       >
                         Trạng thái: {statusToText(items.recyclebinStatus)}
                       </div>
-                      {/* eslint-disable-next-line react/button-has-type */}
-                      <button
-                        style={{
-                          height: '32px',
-                          width: '80px',
-                          borderRadius: '12px',
-                        }}
-                        onClick={() => {
-                          calculateRoute(
-                            '21.036891, 105.781659',
-                            items.location,
-                          );
-                        }}
-                      >
-                        Chỉ đường
-                      </button>
                     </div>
                   </InfoWindow>
                 )}
@@ -322,12 +358,7 @@ const DashBoard = () => {
                   }}
                   onMouseOver={e => {
                     console.log(e);
-                    setShowInfor(true);
                     setIdSelected(items.garbageTruckID);
-                  }}
-                  onClick={e => {
-                    console.log(e);
-                    setShowInfor(true);
                   }}
                   icon={statusToIconTruck(items.status)}
                 />
@@ -338,9 +369,6 @@ const DashBoard = () => {
                       lng: parseFloat(items.location.split(',')[1]),
                     }}
                     zIndex={1000}
-                    onCloseClick={() => {
-                      setShowInfor(false);
-                    }}
                   >
                     <div style={{ width: '200px' }}>
                       <div>Tên xe: {items.name}</div>
@@ -373,10 +401,43 @@ const DashBoard = () => {
               </>
               // eslint-disable-next-line react/jsx-no-comment-textnodes
             ))}
-            {directionResponse &&
-              directionResponse.map(item => (
-                <DirectionsRenderer directions={item} />
-              ))}
+            {directionResponse && (
+              <DirectionsRenderer
+                options={{
+                  suppressMarkers: true,
+                  polylineOptions: { strokeColor: 'red' },
+                }}
+                directions={directionResponse}
+              />
+            )}
+
+            {directionResponse1 && (
+              <DirectionsRenderer
+                directions={directionResponse1}
+                options={{
+                  suppressMarkers: true,
+                  polylineOptions: { strokeColor: 'blue' },
+                }}
+              />
+            )}
+            {directionResponse2 && (
+              <DirectionsRenderer
+                directions={directionResponse2}
+                options={{
+                  suppressMarkers: true,
+                  polylineOptions: { strokeColor: 'green' },
+                }}
+              />
+            )}
+            {directionResponse3 && (
+              <DirectionsRenderer
+                directions={directionResponse3}
+                options={{
+                  suppressMarkers: true,
+                  polylineOptions: { strokeColor: 'white' },
+                }}
+              />
+            )}
           </GoogleMap>
         )}
       </ContentWrapper>
